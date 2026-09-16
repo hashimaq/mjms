@@ -1,0 +1,25 @@
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.pem
+
+# Dependencies
+node_modules/
+.next/
+out/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Supabase local
+.supabase/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/

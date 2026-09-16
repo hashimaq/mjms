@@ -1,0 +1,31 @@
+# MJMS Internal Product Catalogue — Supabase CLI configuration
+# Install CLI: https://supabase.com/docs/guides/cli
+# Link project: supabase link --project-ref <your-project-ref>
+
+project_id = "mjms-catalogue"
+
+[api]
+enabled = true
+schemas = ["public", "storage"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+major_version = 15
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = []
+jwt_expiry = 3600
+enable_signup = false
+enable_anonymous_sign_in = false
+
+[auth.email]
+enable_signup = false
+enable_confirmations = true
+double_confirm_changes = true
+
+[storage]
+enabled = true
+file_size_limit = "50MiB"

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Degenerate Anchor Review</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --border: #d8dee6;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #1d4ed8;
+      --warn: #b45309;
+      --bad: #b91c1c;
+      --ok: #047857;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+    header.page-header {
+      background: #111827;
+      color: #fff;
+      padding: 1.5rem 2rem;
+    }
+    header.page-header h1 { margin: 0 0 .5rem; font-size: 1.6rem; }
+    header.page-header p { margin: .2rem 0; color: #d1d5db; }
+    nav.top-nav {
+      background: #1f2937;
+      padding: .65rem 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    nav.top-nav a { color: #93c5fd; text-decoration: none; font-size: .92rem; }
+    nav.top-nav a:hover { text-decoration: underline; }
+    main { padding: 1.5rem 2rem 3rem; max-width: 1400px; margin: 0 auto; }
+    section { margin-bottom: 2.5rem; }
+    section > h2 {
+      font-size: 1.25rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: .35rem;
+      margin: 0 0 1rem;
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: .75rem;
+      margin-bottom: 1.25rem;
+    }
+    .meta-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .75rem 1rem;
+    }
+    .meta-item .label { font-size: .75rem; text-transform: uppercase; color: var(--muted); }
+    .meta-item .value { font-weight: 600; margin-top: .15rem; word-break: break-word; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .compare-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .article-block {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+    .article-block.highlight { border-color: var(--accent); box-shadow: 0 0 0 2px #bfdbfe; }
+    .article-block h3 { margin: 0 0 .75rem; font-size: 1.05rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card.flagged { border-color: #f59e0b; }
+    .card.unmatched { border-color: #fca5a5; }
+    .card.template { border-color: #c4b5fd; }
+    .card-image {
+      background: #eef2f7;
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: .75rem;
+    }
+    .card-image img {
+      max-width: 100%;
+      max-height: 320px;
+      object-fit: contain;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+    }
+    .card-body { padding: .85rem 1rem 1rem; font-size: .88rem; }
+    .card-body h3 { margin: 0 0 .5rem; font-size: .98rem; }
+    .section-label {
+      font-size: .72rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: .65rem 0 .2rem;
+      font-weight: 700;
+    }
+    .section-label:first-child { margin-top: 0; }
+    .kv { margin: .1rem 0; word-break: break-word; }
+    .badge {
+      display: inline-block;
+      padding: .12rem .45rem;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 700;
+      margin-right: .35rem;
+    }
+    .badge.review { background: #fef3c7; color: var(--warn); }
+    .badge.unmatched { background: #fee2e2; color: var(--bad); }
+    .badge.verified { background: #d1fae5; color: var(--ok); }
+    .badge.template { background: #ede9fe; color: #5b21b6; }
+    table.simple {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: .86rem;
+    }
+    table.simple th, table.simple td {
+      border-bottom: 1px solid var(--border);
+      padding: .55rem .65rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.simple th { background: #f8fafc; }
+    .note { color: var(--muted); font-size: .9rem; }
+    .thumb-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .5rem; }
+    .thumb-row img {
+      width: 96px;
+      height: 96px;
+      object-fit: contain;
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 2px;
+    }
+    </style>
+</head>
+<body>
+  <header class="page-header">
+    <h1>Degenerate Anchor Review</h1>
+    <p>Luna, Selene, and Star flagged image placements</p>
+  </header>
+  <nav class="top-nav"><a href="README.md">Overview</a> | <a href="bianca-review.html">BIANCA</a> | <strong>Degenerate Anchors</strong> | <a href="unmatched-review.html">Unmatched</a> | <a href="template-assets-review.html">Template Assets</a></nav>
+  <main>
+    <p class='note'>Degenerate anchors have DrawingML extent width or height of 0. Mapping unchanged — visual review only.</p>
+        <section>
+          <h2>LUNA — WINTER HEEL row 28</h2>
+          <div class="grid">
+    <article class="card flagged">
+      <div class="card-image">
+        <img src="../../extracted-images/WINTER_HEEL/row_28/02.jpeg" alt="image14.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>Flagged: image14.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> Luna</div>
+        <div class="kv"><strong>Sheet:</strong> WINTER HEEL</div>
+        <div class="kv"><strong>Excel row:</strong> 28</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 2</div>
+        <div class="kv"><strong>Dimensions:</strong> 212 × 148 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image14.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> WINTER_HEEL__row_28__image14.jpeg__a10</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/WINTER_HEEL/row_28/02.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>6da116587b9817fa…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> LOW</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">degenerate anchor extent (0 width/height)</div>
+      </div>
+    </article>
+    </div>
+          <h3>Other images on same row</h3>
+          <div class="grid">
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/WINTER_HEEL/row_28/01.jpeg" alt="image21.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image21.jpeg</h3>
+        <span class="badge verified">VERIFIED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> Luna</div>
+        <div class="kv"><strong>Sheet:</strong> WINTER HEEL</div>
+        <div class="kv"><strong>Excel row:</strong> 28</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 163 × 92 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image21.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> WINTER_HEEL__row_28__image21.jpeg__a17</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/WINTER_HEEL/row_28/01.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>4dfc19b988f28a44…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">—</div>
+      </div>
+    </article>
+    </div>
+          <h3>Nearby row 27</h3><div class='grid'>
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/WINTER_HEEL/row_27/01.jpeg" alt="image20.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image20.jpeg</h3>
+        <span class="badge verified">VERIFIED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> Lyra</div>
+        <div class="kv"><strong>Sheet:</strong> WINTER HEEL</div>
+        <div class="kv"><strong>Excel row:</strong> 27</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 160 × 99 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image20.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> WINTER_HEEL__row_27__image20.jpeg__a16</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/WINTER_HEEL/row_27/01.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>d6abf917a3ac5a5d…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">—</div>
+      </div>
+    </article>
+    </div><h3>Nearby row 29</h3><div class='grid'>
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/WINTER_HEEL/row_29/01.jpeg" alt="image15.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image15.jpeg</h3>
+        <span class="badge verified">VERIFIED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> Selene</div>
+        <div class="kv"><strong>Sheet:</strong> WINTER HEEL</div>
+        <div class="kv"><strong>Excel row:</strong> 29</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 166 × 86 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image15.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> WINTER_HEEL__row_29__image15.jpeg__a11</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/WINTER_HEEL/row_29/01.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>54aac72995f1980e…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">—</div>
+      </div>
+    </article>
+    </div>
+        </section>
+        
+        <section>
+          <h2>SELENE — WINTER HEEL row 29</h2>
+          <div class="grid">
+    <article class="card flagged">
+      <div class="card-image">
+        <img src="../../extracted-images/WINTER_HEEL/row_29/02.jpeg" alt="image13.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>Flagged: image13.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> Selene</div>
+        <div class="kv"><strong>Sheet:</strong> WINTER HEEL</div>
+        <div class="kv"><strong>Excel row:</strong> 29</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 2</div>
+        <div class="kv"><strong>Dimensions:</strong> 89 × 122 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image13.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> WINTER_HEEL__row_29__image13.jpeg__a9</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/WINTER_HEEL/row_29/02.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>9980a763e722b60b…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> LOW</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">degenerate anchor extent (0 width/height)</div>
+      </div>
+    </article>
+    </div>
+          <h3>Other images on same row</h3>
+          <div class="grid">
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/WINTER_HEEL/row_29/01.jpeg" alt="image15.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image15.jpeg</h3>
+        <span class="badge verified">VERIFIED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> Selene</div>
+        <div class="kv"><strong>Sheet:</strong> WINTER HEEL</div>
+        <div class="kv"><strong>Excel row:</strong> 29</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 166 × 86 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image15.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> WINTER_HEEL__row_29__image15.jpeg__a11</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/WINTER_HEEL/row_29/01.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>54aac72995f1980e…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">—</div>
+      </div>
+    </article>
+    </div>
+          <h3>Nearby row 28</h3><div class='grid'>
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/WINTER_HEEL/row_28/01.jpeg" alt="image21.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image21.jpeg</h3>
+        <span class="badge verified">VERIFIED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> Luna</div>
+        <div class="kv"><strong>Sheet:</strong> WINTER HEEL</div>
+        <div class="kv"><strong>Excel row:</strong> 28</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 163 × 92 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image21.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> WINTER_HEEL__row_28__image21.jpeg__a17</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/WINTER_HEEL/row_28/01.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>4dfc19b988f28a44…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">—</div>
+      </div>
+    </article>
+    </div><h3>Nearby row 30</h3><div class='grid'>
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/WINTER_HEEL/row_30/01.jpeg" alt="image22.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image22.jpeg</h3>
+        <span class="badge verified">VERIFIED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> Draco</div>
+        <div class="kv"><strong>Sheet:</strong> WINTER HEEL</div>
+        <div class="kv"><strong>Excel row:</strong> 30</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 161 × 103 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image22.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> WINTER_HEEL__row_30__image22.jpeg__a18</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/WINTER_HEEL/row_30/01.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>195368c94b2b18ee…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">—</div>
+      </div>
+    </article>
+    </div>
+        </section>
+        
+        <section>
+          <h2>STAR — SUMMER HEEL row 19</h2>
+          <div class="grid">
+    <article class="card flagged">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_HEEL/row_19/01.png" alt="image101.png" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>Flagged: image101.png</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> Star</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER HEEL</div>
+        <div class="kv"><strong>Excel row:</strong> 19</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 560 × 353 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image101.png</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_HEEL__row_19__image101.png__a0</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_HEEL/row_19/01.png</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>d5c68c02468c7be7…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> LOW</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">degenerate anchor extent (0 width/height)</div>
+      </div>
+    </article>
+    </div>
+          <h3>Other images on same row</h3>
+          <div class="grid">
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_HEEL/row_19/02.jpeg" alt="image105.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image105.jpeg</h3>
+        <span class="badge verified">VERIFIED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> Star</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER HEEL</div>
+        <div class="kv"><strong>Excel row:</strong> 19</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 2</div>
+        <div class="kv"><strong>Dimensions:</strong> 111 × 102 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image105.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_HEEL__row_19__image105.jpeg__a14</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_HEEL/row_19/02.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>94678c56529dec24…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">—</div>
+      </div>
+    </article>
+    </div>
+          <h3>Nearby row 18</h3><div class='grid'>
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_HEEL/row_18/01.png" alt="image31.png" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image31.png</h3>
+        <span class="badge verified">VERIFIED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> 7029</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER HEEL</div>
+        <div class="kv"><strong>Excel row:</strong> 18</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 116 × 96 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image31.png</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_HEEL__row_18__image31.png__a13</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_HEEL/row_18/01.png</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>94fbd0f738ef14ac…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">—</div>
+      </div>
+    </article>
+    </div><h3>Nearby row 20</h3><div class='grid'>
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_HEEL/row_20/01.png" alt="image106.png" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image106.png</h3>
+        <span class="badge verified">VERIFIED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> 7046</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER HEEL</div>
+        <div class="kv"><strong>Excel row:</strong> 20</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 95 × 147 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image106.png</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_HEEL__row_20__image106.png__a15</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_HEEL/row_20/01.png</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>63f3a62bf31676cb…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">—</div>
+      </div>
+    </article>
+    </div>
+        </section>
+        
+  </main>
+</body>
+</html>

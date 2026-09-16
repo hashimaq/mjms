@@ -1,0 +1,61 @@
+sha256,source_file,sheet,excel_row,project_raw,extracted_file
+f62020b07f10fc702a5da7cffb07840add44199991575e2d3e98ef3787b88fb3,image5.jpeg,WINTER HEEL,4,7026,extracted-images/WINTER_HEEL/row_4/01.jpeg
+f62020b07f10fc702a5da7cffb07840add44199991575e2d3e98ef3787b88fb3,image5.jpeg,SUMMER HEEL,3,7026,extracted-images/SUMMER_HEEL/row_3/01.jpeg
+d7da6f6ed64c2893ff7e066351b6cb7fd183c8c3ca0f8d479b9c230add8eee97,image6.jpeg,WINTER HEEL,6,"SLIP
+(40179)",extracted-images/WINTER_HEEL/row_6/01.jpeg
+d7da6f6ed64c2893ff7e066351b6cb7fd183c8c3ca0f8d479b9c230add8eee97,image6.jpeg,SUMMER HEEL,4,"SLIP
+(40179)",extracted-images/SUMMER_HEEL/row_4/01.jpeg
+28b24ab7cced9fcb6ccc04e7405bd0e81209205d2f4c44bc0aee7aa554f8c6dd,image7.jpeg,WINTER HEEL,7,Breeze,extracted-images/WINTER_HEEL/row_7/01.jpeg
+28b24ab7cced9fcb6ccc04e7405bd0e81209205d2f4c44bc0aee7aa554f8c6dd,image7.jpeg,SUMMER HEEL,5,Breeze,extracted-images/SUMMER_HEEL/row_5/01.jpeg
+eb813c1b42359af08a4b8bcccd3ada0a2b94ccac1373ab04b224d92a51eadc90,image9.png,WINTER HEEL,12,Reef,extracted-images/WINTER_HEEL/row_12/01.png
+eb813c1b42359af08a4b8bcccd3ada0a2b94ccac1373ab04b224d92a51eadc90,image9.png,SUMMER HEEL,11,Reef,extracted-images/SUMMER_HEEL/row_11/01.png
+7034b7f32594695f19606bdb6bdc24c684046ce9c4ddd950fcc5383d92bded92,image10.png,WINTER HEEL,14,Zeeta paint,extracted-images/WINTER_HEEL/row_14/01.png
+7034b7f32594695f19606bdb6bdc24c684046ce9c4ddd950fcc5383d92bded92,image10.png,SUMMER HEEL,12,Zeeta paint,extracted-images/SUMMER_HEEL/row_12/01.png
+f3581df5356a8cbb4129da5ae69e1ed0e0ee47d2cbb5edb3c801b991804b5a66,image11.png,WINTER HEEL,15,ORION,extracted-images/WINTER_HEEL/row_15/01.png
+f3581df5356a8cbb4129da5ae69e1ed0e0ee47d2cbb5edb3c801b991804b5a66,image11.png,SUMMER HEEL,15,ORION,extracted-images/SUMMER_HEEL/row_15/01.png
+45d8aa018fed114856225b06d1d9b2c05201b3d768651c88a89e9ba52b8d7fbf,image12.png,WINTER HEEL,17,River,extracted-images/WINTER_HEEL/row_17/01.png
+45d8aa018fed114856225b06d1d9b2c05201b3d768651c88a89e9ba52b8d7fbf,image12.png,SUMMER HEEL,16,River,extracted-images/SUMMER_HEEL/row_16/01.png
+9980a763e722b60b9c452dc79da043768b791da0c483e7c0097aa7d4766c9449,image13.jpeg,WINTER HEEL,29,Selene,extracted-images/WINTER_HEEL/row_29/02.jpeg
+9980a763e722b60b9c452dc79da043768b791da0c483e7c0097aa7d4766c9449,image13.jpeg,SUMMER FLAT,42,,extracted-images/_unmatched/SUMMER_FLAT/row_42/01.jpeg
+128be2f2fa977b542759fcfa05668d9c2e19b41bd60c606349478f5ed26dda6b,image25.png,WINTER HEEL,18,KIZA,extracted-images/WINTER_HEEL/row_18/01.png
+128be2f2fa977b542759fcfa05668d9c2e19b41bd60c606349478f5ed26dda6b,image25.png,SUMMER HEEL,26,KIZA,extracted-images/SUMMER_HEEL/row_26/01.png
+51e2fb0260fb6e39bcc30d2532e81896a70dff9cb23df5630290968a7ae39994,image26.jpeg,WINTER HEEL,19,ROZY,extracted-images/WINTER_HEEL/row_19/01.jpeg
+51e2fb0260fb6e39bcc30d2532e81896a70dff9cb23df5630290968a7ae39994,image26.jpeg,SUMMER HEEL,30,ROZY,extracted-images/SUMMER_HEEL/row_30/01.jpeg
+6207dc133ecbb82e76f2667ea30cc4f62a05624c9a6517d3a3cfcfe42fd73d6f,image27.png,WINTER HEEL,16,C-Height,extracted-images/WINTER_HEEL/row_16/01.png
+6207dc133ecbb82e76f2667ea30cc4f62a05624c9a6517d3a3cfcfe42fd73d6f,image27.png,SUMMER HEEL,21,C-Height,extracted-images/SUMMER_HEEL/row_21/01.png
+94fbd0f738ef14aceedee71021d6c26c8caa30017392964491b84b662c018154,image31.png,WINTER HEEL,5,7029,extracted-images/WINTER_HEEL/row_5/01.png
+94fbd0f738ef14aceedee71021d6c26c8caa30017392964491b84b662c018154,image31.png,SUMMER HEEL,18,7029,extracted-images/SUMMER_HEEL/row_18/01.png
+4e243d4ab5bfabae2dcc1f8a1a75e728de6068daf85fb2603ef29bbc5a0139f7,image35.png,WINTER FLAT,5,RAVI,extracted-images/WINTER_FLAT/row_5/01.png
+4e243d4ab5bfabae2dcc1f8a1a75e728de6068daf85fb2603ef29bbc5a0139f7,image35.png,WINTER FLAT,6,RAVI,extracted-images/WINTER_FLAT/row_6/01.png
+b18b95807d0c79b9ad5b7b0a600540f54eb09344977c66258cdbd8d9cc61b2b5,image51.png,WINTER FLAT,21,MM2,extracted-images/WINTER_FLAT/row_21/01.png
+b18b95807d0c79b9ad5b7b0a600540f54eb09344977c66258cdbd8d9cc61b2b5,image51.png,WINTER FLAT,22,MM2,extracted-images/WINTER_FLAT/row_22/01.png
+e47807f306558bac95c1a82fe5cadccde56c898b0126f0464a6477929428dc56,image54.png,WINTER FLAT,39,,extracted-images/_unmatched/WINTER_FLAT/row_39/02.png
+e47807f306558bac95c1a82fe5cadccde56c898b0126f0464a6477929428dc56,image54.png,WINTER PU,16,,extracted-images/_unmatched/WINTER_PU/row_16/02.png
+e47807f306558bac95c1a82fe5cadccde56c898b0126f0464a6477929428dc56,image54.png,WINTER DIP PU,19,,extracted-images/_unmatched/WINTER_DIP_PU/row_19/02.png
+e47807f306558bac95c1a82fe5cadccde56c898b0126f0464a6477929428dc56,image54.png,WINTER DIP PVC,38,,extracted-images/_unmatched/WINTER_DIP_PVC/row_38/02.png
+e47807f306558bac95c1a82fe5cadccde56c898b0126f0464a6477929428dc56,image54.png,SUMMER HEEL,48,,extracted-images/_unmatched/SUMMER_HEEL/row_48/02.png
+e47807f306558bac95c1a82fe5cadccde56c898b0126f0464a6477929428dc56,image54.png,SUMMER FLAT,47,,extracted-images/_unmatched/SUMMER_FLAT/row_47/01.png
+e47807f306558bac95c1a82fe5cadccde56c898b0126f0464a6477929428dc56,image54.png,SUMMER PU,73,,extracted-images/_unmatched/SUMMER_PU/row_73/02.png
+e47807f306558bac95c1a82fe5cadccde56c898b0126f0464a6477929428dc56,image54.png,SUMMER DIP PU,30,,extracted-images/_unmatched/SUMMER_DIP_PU/row_30/02.png
+e47807f306558bac95c1a82fe5cadccde56c898b0126f0464a6477929428dc56,image54.png,SUMMER DIP PVC,18,,extracted-images/_unmatched/SUMMER_DIP_PVC/row_18/02.png
+b5f3db030fe05a641532a968899087274c53ca7f66375af936ef2cd9454e6067,image55.png,WINTER FLAT,39,,extracted-images/_unmatched/WINTER_FLAT/row_39/01.png
+b5f3db030fe05a641532a968899087274c53ca7f66375af936ef2cd9454e6067,image55.png,WINTER PU,16,,extracted-images/_unmatched/WINTER_PU/row_16/01.png
+b5f3db030fe05a641532a968899087274c53ca7f66375af936ef2cd9454e6067,image55.png,WINTER DIP PU,19,,extracted-images/_unmatched/WINTER_DIP_PU/row_19/01.png
+b5f3db030fe05a641532a968899087274c53ca7f66375af936ef2cd9454e6067,image55.png,WINTER DIP PVC,38,,extracted-images/_unmatched/WINTER_DIP_PVC/row_38/01.png
+b5f3db030fe05a641532a968899087274c53ca7f66375af936ef2cd9454e6067,image55.png,SUMMER HEEL,48,,extracted-images/_unmatched/SUMMER_HEEL/row_48/01.png
+b5f3db030fe05a641532a968899087274c53ca7f66375af936ef2cd9454e6067,image55.png,SUMMER PU,73,,extracted-images/_unmatched/SUMMER_PU/row_73/01.png
+b5f3db030fe05a641532a968899087274c53ca7f66375af936ef2cd9454e6067,image55.png,SUMMER DIP PU,30,,extracted-images/_unmatched/SUMMER_DIP_PU/row_30/01.png
+b5f3db030fe05a641532a968899087274c53ca7f66375af936ef2cd9454e6067,image55.png,SUMMER DIP PVC,18,,extracted-images/_unmatched/SUMMER_DIP_PVC/row_18/01.png
+40e0f223c9c44effb55cab311c96e2ef9a08908ba1616f2334d3e7c3ad9ce4b2,image112.jpeg,SUMMER HEEL,29,Lia-Wedge,extracted-images/SUMMER_HEEL/row_29/01.jpeg
+40e0f223c9c44effb55cab311c96e2ef9a08908ba1616f2334d3e7c3ad9ce4b2,image112.jpeg,SUMMER PU,51,Lia-Wedge,extracted-images/SUMMER_PU/row_51/01.jpeg
+b05246fd7a0b169f0383c9fa36f2bbda32759e84a8813066d541c59e58b39721,image184.jpeg,SUMMER PU,25,APRICOT,extracted-images/SUMMER_PU/row_25/02.jpeg
+b05246fd7a0b169f0383c9fa36f2bbda32759e84a8813066d541c59e58b39721,image184.jpeg,SUMMER PU,25,APRICOT,extracted-images/SUMMER_PU/row_25/01.jpeg
+b05246fd7a0b169f0383c9fa36f2bbda32759e84a8813066d541c59e58b39721,image184.jpeg,SUMMER DIP PU,19,OSCAR,extracted-images/SUMMER_DIP_PU/row_19/01.jpeg
+1bbef1423956c7ad29f268f9205e1b79d61dba807bc304dbc6a7a7b377c7f797,image187.jpeg,SUMMER PU,27,TORINO,extracted-images/SUMMER_PU/row_27/01.jpeg
+1bbef1423956c7ad29f268f9205e1b79d61dba807bc304dbc6a7a7b377c7f797,image187.jpeg,SUMMER DIP PU,5,BIANCA,extracted-images/SUMMER_DIP_PU/row_5/05.jpeg
+357517003b48843eee6ceb1b11b6dd8235fa6188cd4ea73658865add95515df0,image188.jpeg,SUMMER PU,28,KERONA,extracted-images/SUMMER_PU/row_28/01.jpeg
+357517003b48843eee6ceb1b11b6dd8235fa6188cd4ea73658865add95515df0,image188.jpeg,SUMMER DIP PU,5,BIANCA,extracted-images/SUMMER_DIP_PU/row_5/01.jpeg
+05bcd3ab772137d961fc4f5fdb4b25a71ab725abfdc1f42ff7e974c9fd252754,image189.jpeg,SUMMER PU,29,COMO,extracted-images/SUMMER_PU/row_29/01.jpeg
+05bcd3ab772137d961fc4f5fdb4b25a71ab725abfdc1f42ff7e974c9fd252754,image189.jpeg,SUMMER DIP PU,5,BIANCA,extracted-images/SUMMER_DIP_PU/row_5/02.jpeg
+0e2a111cd7ebc869f7c25356d2d688c7286859c6afe335f669665210bcde2e87,image191.jpeg,SUMMER PU,31,TOKYO,extracted-images/SUMMER_PU/row_31/01.jpeg
+0e2a111cd7ebc869f7c25356d2d688c7286859c6afe335f669665210bcde2e87,image191.jpeg,SUMMER DIP PU,5,BIANCA,extracted-images/SUMMER_DIP_PU/row_5/06.jpeg

@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIANCA Image Mapping Review</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --border: #d8dee6;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #1d4ed8;
+      --warn: #b45309;
+      --bad: #b91c1c;
+      --ok: #047857;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+    header.page-header {
+      background: #111827;
+      color: #fff;
+      padding: 1.5rem 2rem;
+    }
+    header.page-header h1 { margin: 0 0 .5rem; font-size: 1.6rem; }
+    header.page-header p { margin: .2rem 0; color: #d1d5db; }
+    nav.top-nav {
+      background: #1f2937;
+      padding: .65rem 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    nav.top-nav a { color: #93c5fd; text-decoration: none; font-size: .92rem; }
+    nav.top-nav a:hover { text-decoration: underline; }
+    main { padding: 1.5rem 2rem 3rem; max-width: 1400px; margin: 0 auto; }
+    section { margin-bottom: 2.5rem; }
+    section > h2 {
+      font-size: 1.25rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: .35rem;
+      margin: 0 0 1rem;
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: .75rem;
+      margin-bottom: 1.25rem;
+    }
+    .meta-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .75rem 1rem;
+    }
+    .meta-item .label { font-size: .75rem; text-transform: uppercase; color: var(--muted); }
+    .meta-item .value { font-weight: 600; margin-top: .15rem; word-break: break-word; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .compare-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .article-block {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+    .article-block.highlight { border-color: var(--accent); box-shadow: 0 0 0 2px #bfdbfe; }
+    .article-block h3 { margin: 0 0 .75rem; font-size: 1.05rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card.flagged { border-color: #f59e0b; }
+    .card.unmatched { border-color: #fca5a5; }
+    .card.template { border-color: #c4b5fd; }
+    .card-image {
+      background: #eef2f7;
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: .75rem;
+    }
+    .card-image img {
+      max-width: 100%;
+      max-height: 320px;
+      object-fit: contain;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+    }
+    .card-body { padding: .85rem 1rem 1rem; font-size: .88rem; }
+    .card-body h3 { margin: 0 0 .5rem; font-size: .98rem; }
+    .section-label {
+      font-size: .72rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: .65rem 0 .2rem;
+      font-weight: 700;
+    }
+    .section-label:first-child { margin-top: 0; }
+    .kv { margin: .1rem 0; word-break: break-word; }
+    .badge {
+      display: inline-block;
+      padding: .12rem .45rem;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 700;
+      margin-right: .35rem;
+    }
+    .badge.review { background: #fef3c7; color: var(--warn); }
+    .badge.unmatched { background: #fee2e2; color: var(--bad); }
+    .badge.verified { background: #d1fae5; color: var(--ok); }
+    .badge.template { background: #ede9fe; color: #5b21b6; }
+    table.simple {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: .86rem;
+    }
+    table.simple th, table.simple td {
+      border-bottom: 1px solid var(--border);
+      padding: .55rem .65rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.simple th { background: #f8fafc; }
+    .note { color: var(--muted); font-size: .9rem; }
+    .thumb-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .5rem; }
+    .thumb-row img {
+      width: 96px;
+      height: 96px;
+      object-fit: contain;
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 2px;
+    }
+    </style>
+</head>
+<body>
+  <header class="page-header">
+    <h1>BIANCA Image Mapping Review</h1>
+    <p>Visual inspection of 8 anchored images on SUMMER DIP PU row 5</p>
+  </header>
+  <nav class="top-nav"><a href="README.md">Overview</a> | <strong>BIANCA</strong> | <a href="degenerate-anchor-review.html">Degenerate Anchors</a> | <a href="unmatched-review.html">Unmatched</a> | <a href="template-assets-review.html">Template Assets</a></nav>
+  <main>
+    
+    <section>
+      <div class="meta-grid">
+        <div class="meta-item"><div class="label">Sheet</div><div class="value">SUMMER DIP PU</div></div>
+        <div class="meta-item"><div class="label">Excel Row</div><div class="value">5</div></div>
+        <div class="meta-item"><div class="label">Project</div><div class="value">BIANCA</div></div>
+        <div class="meta-item"><div class="label">Image Count</div><div class="value">8</div></div>
+      </div>
+      <p class="note">All 8 images are anchored to Excel row 5 via DrawingML. Compare visually with neighboring rows 4 (BUFFY) and 6 (BELTA) before confirming ownership.</p>
+    </section>
+    <section>
+      <h2>BIANCA — 8 Flagged Placements (Row 5)</h2>
+      <div class="grid">
+    <article class="card flagged">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/01.jpeg" alt="image188.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>#1 image188.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 170 × 105 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image188.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image188.jpeg__a18</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/01.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>357517003b48843e…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    
+    <article class="card flagged">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/02.jpeg" alt="image189.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>#2 image189.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 2</div>
+        <div class="kv"><strong>Dimensions:</strong> 170 × 105 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image189.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image189.jpeg__a19</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/02.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>05bcd3ab772137d9…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    
+    <article class="card flagged">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/03.jpeg" alt="image243.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>#3 image243.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 3</div>
+        <div class="kv"><strong>Dimensions:</strong> 169 × 107 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image243.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image243.jpeg__a20</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/03.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>0f5c26c878d1519a…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    
+    <article class="card flagged">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/04.jpeg" alt="image241.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>#4 image241.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 4</div>
+        <div class="kv"><strong>Dimensions:</strong> 171 × 104 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image241.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image241.jpeg__a15</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/04.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>8340595c14f34804…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    
+    <article class="card flagged">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/05.jpeg" alt="image187.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>#5 image187.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 5</div>
+        <div class="kv"><strong>Dimensions:</strong> 170 × 105 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image187.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image187.jpeg__a17</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/05.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>1bbef1423956c7ad…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    
+    <article class="card flagged">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/06.jpeg" alt="image191.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>#6 image191.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 6</div>
+        <div class="kv"><strong>Dimensions:</strong> 170 × 105 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image191.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image191.jpeg__a21</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/06.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>0e2a111cd7ebc869…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    
+    <article class="card flagged">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/07.jpeg" alt="image244.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>#7 image244.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 7</div>
+        <div class="kv"><strong>Dimensions:</strong> 170 × 105 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image244.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image244.jpeg__a22</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/07.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>06cd0ed86a88319c…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    
+    <article class="card flagged">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/08.jpeg" alt="image242.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>#8 image242.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 8</div>
+        <div class="kv"><strong>Dimensions:</strong> 169 × 106 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image242.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image242.jpeg__a16</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/08.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>6be1e36d4153ddfa…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    </div>
+    </section>
+    <section>
+      <h2>Neighboring Articles — Visual Comparison</h2>
+      <div class="compare-row">
+        
+    <div class="article-block">
+      <h3>Row 4 — BUFFY (previous row)</h3>
+      <p class="note">Sheet: SUMMER DIP PU · 1 image(s)</p>
+      <div class="grid">
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_4/01.png" alt="image229.png" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image229.png</h3>
+        <span class="badge verified">VERIFIED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BUFFY</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 4</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 167 × 105 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image229.png</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_4__image229.png__a3</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_4/01.png</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>b94043b1006febc9…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">—</div>
+      </div>
+    </article>
+    </div>
+    </div>
+    
+        
+    <div class="article-block highlight">
+      <h3>Row 5 — BIANCA (flagged row)</h3>
+      <p class="note">Sheet: SUMMER DIP PU · 8 image(s)</p>
+      <div class="grid">
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/01.jpeg" alt="image188.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image188.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 170 × 105 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image188.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image188.jpeg__a18</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/01.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>357517003b48843e…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/02.jpeg" alt="image189.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image189.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 2</div>
+        <div class="kv"><strong>Dimensions:</strong> 170 × 105 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image189.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image189.jpeg__a19</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/02.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>05bcd3ab772137d9…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/03.jpeg" alt="image243.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image243.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 3</div>
+        <div class="kv"><strong>Dimensions:</strong> 169 × 107 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image243.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image243.jpeg__a20</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/03.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>0f5c26c878d1519a…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/04.jpeg" alt="image241.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image241.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 4</div>
+        <div class="kv"><strong>Dimensions:</strong> 171 × 104 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image241.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image241.jpeg__a15</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/04.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>8340595c14f34804…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/05.jpeg" alt="image187.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image187.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 5</div>
+        <div class="kv"><strong>Dimensions:</strong> 170 × 105 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image187.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image187.jpeg__a17</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/05.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>1bbef1423956c7ad…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/06.jpeg" alt="image191.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image191.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 6</div>
+        <div class="kv"><strong>Dimensions:</strong> 170 × 105 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image191.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image191.jpeg__a21</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/06.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>0e2a111cd7ebc869…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/07.jpeg" alt="image244.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image244.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 7</div>
+        <div class="kv"><strong>Dimensions:</strong> 170 × 105 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image244.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image244.jpeg__a22</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/07.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>06cd0ed86a88319c…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_5/08.jpeg" alt="image242.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image242.jpeg</h3>
+        <span class="badge review">NEEDS_REVIEW</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BIANCA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 5</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 8</div>
+        <div class="kv"><strong>Dimensions:</strong> 169 × 106 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image242.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_5__image242.jpeg__a16</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_5/08.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>6be1e36d4153ddfa…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">BIANCA row has multiple anchored images — verify all belong to BIANCA vs neighbors</div>
+      </div>
+    </article>
+    </div>
+    </div>
+    
+        
+    <div class="article-block">
+      <h3>Row 6 — BELTA (next row)</h3>
+      <p class="note">Sheet: SUMMER DIP PU · 2 image(s)</p>
+      <div class="grid">
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_6/01.png" alt="image230.png" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image230.png</h3>
+        <span class="badge verified">VERIFIED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BELTA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 6</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 166 × 71 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image230.png</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_6__image230.png__a4</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_6/01.png</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>5759099104cb9a68…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">—</div>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="card-image">
+        <img src="../../extracted-images/SUMMER_DIP_PU/row_6/02.png" alt="image231.png" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image231.png</h3>
+        <span class="badge verified">VERIFIED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> BELTA</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER DIP PU</div>
+        <div class="kv"><strong>Excel row:</strong> 6</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 2</div>
+        <div class="kv"><strong>Dimensions:</strong> 166 × 60 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image231.png</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_DIP_PU__row_6__image231.png__a5</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/SUMMER_DIP_PU/row_6/02.png</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>2492d6afee4e3a8b…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> drawing_anchor</div>
+        <div class="kv"><strong>Confidence:</strong> HIGH</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">—</div>
+      </div>
+    </article>
+    </div>
+    </div>
+    
+      </div>
+    </section>
+    
+  </main>
+</body>
+</html>

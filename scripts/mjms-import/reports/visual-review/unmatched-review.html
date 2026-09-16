@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unmatched Image Review</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --border: #d8dee6;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #1d4ed8;
+      --warn: #b45309;
+      --bad: #b91c1c;
+      --ok: #047857;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+    header.page-header {
+      background: #111827;
+      color: #fff;
+      padding: 1.5rem 2rem;
+    }
+    header.page-header h1 { margin: 0 0 .5rem; font-size: 1.6rem; }
+    header.page-header p { margin: .2rem 0; color: #d1d5db; }
+    nav.top-nav {
+      background: #1f2937;
+      padding: .65rem 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    nav.top-nav a { color: #93c5fd; text-decoration: none; font-size: .92rem; }
+    nav.top-nav a:hover { text-decoration: underline; }
+    main { padding: 1.5rem 2rem 3rem; max-width: 1400px; margin: 0 auto; }
+    section { margin-bottom: 2.5rem; }
+    section > h2 {
+      font-size: 1.25rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: .35rem;
+      margin: 0 0 1rem;
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: .75rem;
+      margin-bottom: 1.25rem;
+    }
+    .meta-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .75rem 1rem;
+    }
+    .meta-item .label { font-size: .75rem; text-transform: uppercase; color: var(--muted); }
+    .meta-item .value { font-weight: 600; margin-top: .15rem; word-break: break-word; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .compare-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .article-block {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+    .article-block.highlight { border-color: var(--accent); box-shadow: 0 0 0 2px #bfdbfe; }
+    .article-block h3 { margin: 0 0 .75rem; font-size: 1.05rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card.flagged { border-color: #f59e0b; }
+    .card.unmatched { border-color: #fca5a5; }
+    .card.template { border-color: #c4b5fd; }
+    .card-image {
+      background: #eef2f7;
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: .75rem;
+    }
+    .card-image img {
+      max-width: 100%;
+      max-height: 320px;
+      object-fit: contain;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+    }
+    .card-body { padding: .85rem 1rem 1rem; font-size: .88rem; }
+    .card-body h3 { margin: 0 0 .5rem; font-size: .98rem; }
+    .section-label {
+      font-size: .72rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: .65rem 0 .2rem;
+      font-weight: 700;
+    }
+    .section-label:first-child { margin-top: 0; }
+    .kv { margin: .1rem 0; word-break: break-word; }
+    .badge {
+      display: inline-block;
+      padding: .12rem .45rem;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 700;
+      margin-right: .35rem;
+    }
+    .badge.review { background: #fef3c7; color: var(--warn); }
+    .badge.unmatched { background: #fee2e2; color: var(--bad); }
+    .badge.verified { background: #d1fae5; color: var(--ok); }
+    .badge.template { background: #ede9fe; color: #5b21b6; }
+    table.simple {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: .86rem;
+    }
+    table.simple th, table.simple td {
+      border-bottom: 1px solid var(--border);
+      padding: .55rem .65rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.simple th { background: #f8fafc; }
+    .note { color: var(--muted); font-size: .9rem; }
+    .thumb-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .5rem; }
+    .thumb-row img {
+      width: 96px;
+      height: 96px;
+      object-fit: contain;
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 2px;
+    }
+    </style>
+</head>
+<body>
+  <header class="page-header">
+    <h1>Unmatched Image Review</h1>
+    <p>Orphan and non-article image placements</p>
+  </header>
+  <nav class="top-nav"><a href="README.md">Overview</a> | <a href="bianca-review.html">BIANCA</a> | <a href="degenerate-anchor-review.html">Degenerate Anchors</a> | <strong>Unmatched</strong> | <a href="template-assets-review.html">Template Assets</a></nav>
+  <main>
+    
+    <section>
+      <h2>Primary Focus — SUMMER FLAT image13.jpeg (Row 42)</h2>
+      <p class="note">Anchored below the last article row (41 / K-VPI). Very small (89×122 px). Same binary hash as Selene's flagged image13 on WINTER HEEL row 29.</p>
+      <div class="grid">
+    <article class="card unmatched">
+      <div class="card-image">
+        <img src="../../extracted-images/_unmatched/SUMMER_FLAT/row_42/01.jpeg" alt="image13.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image13.jpeg</h3>
+        <span class="badge unmatched">UNMATCHED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> —</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMER FLAT</div>
+        <div class="kv"><strong>Excel row:</strong> 42</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 89 × 122 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image13.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMER_FLAT__row_42__image13.jpeg__a37</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/_unmatched/SUMMER_FLAT/row_42/01.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>9980a763e722b60b…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> unmatched</div>
+        <div class="kv"><strong>Confidence:</strong> LOW</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">degenerate anchor extent (0 width/height); No article row at anchored excel_row</div>
+      </div>
+    </article>
+    </div>
+    </section>
+    <section>
+      <h2>Other Meaningful Unmatched Placements</h2>
+      <p class="note">Navigation / summary sheet decorative shapes — not product catalogue rows.</p>
+      <div class="grid">
+    <article class="card unmatched">
+      <div class="card-image">
+        <img src="../../extracted-images/_unmatched/SUMMARY/row_4/01.jpeg" alt="image1.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image1.jpeg</h3>
+        <span class="badge unmatched">UNMATCHED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> —</div>
+        <div class="kv"><strong>Sheet:</strong> SUMMARY</div>
+        <div class="kv"><strong>Excel row:</strong> 4</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 128 × 128 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image1.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> SUMMARY__row_4__image1.jpeg__a0</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/_unmatched/SUMMARY/row_4/01.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>868a9536ef0e8030…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> unmatched</div>
+        <div class="kv"><strong>Confidence:</strong> LOW</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">shape-with-image (not xdr:pic) — possible decorative/template element; No article row at anchored excel_row</div>
+      </div>
+    </article>
+    
+    <article class="card unmatched">
+      <div class="card-image">
+        <img src="../../extracted-images/_unmatched/WINTER_SUMMER/row_2/01.jpeg" alt="image2.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image2.jpeg</h3>
+        <span class="badge unmatched">UNMATCHED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> —</div>
+        <div class="kv"><strong>Sheet:</strong> WINTER &amp; SUMMER</div>
+        <div class="kv"><strong>Excel row:</strong> 2</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 1</div>
+        <div class="kv"><strong>Dimensions:</strong> 128 × 128 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image2.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> WINTER_SUMMER__row_2__image2.jpeg__a0</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/_unmatched/WINTER_SUMMER/row_2/01.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>785be7324ae731a2…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> unmatched</div>
+        <div class="kv"><strong>Confidence:</strong> LOW</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">shape-with-image (not xdr:pic) — possible decorative/template element; No article row at anchored excel_row</div>
+      </div>
+    </article>
+    
+    <article class="card unmatched">
+      <div class="card-image">
+        <img src="../../extracted-images/_unmatched/WINTER_SUMMER/row_2/02.jpeg" alt="image3.jpeg" loading="lazy">
+      </div>
+      <div class="card-body">
+        <h3>image3.jpeg</h3>
+        <span class="badge unmatched">UNMATCHED</span>
+        <div class="section-label">Article</div>
+        <div class="kv"><strong>Project:</strong> —</div>
+        <div class="kv"><strong>Sheet:</strong> WINTER &amp; SUMMER</div>
+        <div class="kv"><strong>Excel row:</strong> 2</div>
+        <div class="section-label">Image</div>
+        <div class="kv"><strong>Sequence:</strong> 2</div>
+        <div class="kv"><strong>Dimensions:</strong> 128 × 128 px</div>
+        <div class="section-label">Source</div>
+        <div class="kv"><strong>Filename:</strong> image3.jpeg</div>
+        <div class="kv"><strong>Image ID:</strong> WINTER_SUMMER__row_2__image3.jpeg__a1</div>
+        <div class="kv"><strong>Extracted:</strong> extracted-images/_unmatched/WINTER_SUMMER/row_2/02.jpeg</div>
+        <div class="kv"><strong>SHA-256:</strong> <code>83f708f4dd19bbb1…</code></div>
+        <div class="section-label">Mapping</div>
+        <div class="kv"><strong>Type:</strong> unmatched</div>
+        <div class="kv"><strong>Confidence:</strong> LOW</div>
+        <div class="section-label">Notes</div>
+        <div class="kv">shape-with-image (not xdr:pic) — possible decorative/template element; No article row at anchored excel_row</div>
+      </div>
+    </article>
+    </div>
+    </section>
+    <section>
+      <h2>Recurring Template Candidates (image54 / image55)</h2>
+      <p class="note">17 unmatched placements use image54.png or image55.png. See <a href="template-assets-review.html">template-assets-review.html</a> for full analysis. Do not treat as product images.</p>
+      <table class="simple">
+        <thead><tr><th>Source</th><th>Sheet</th><th>Row</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>image54.png</td><td>WINTER FLAT</td><td>39</td><td>degenerate anchor extent (0 width/height); No article row at anchored excel_row</td></tr><tr><td>image55.png</td><td>WINTER FLAT</td><td>39</td><td>No article row at anchored excel_row</td></tr><tr><td>image54.png</td><td>WINTER PU</td><td>16</td><td>degenerate anchor extent (0 width/height); No article row at anchored excel_row</td></tr><tr><td>image55.png</td><td>WINTER PU</td><td>16</td><td>No article row at anchored excel_row</td></tr><tr><td>image54.png</td><td>WINTER DIP PU</td><td>19</td><td>degenerate anchor extent (0 width/height); No article row at anchored excel_row</td></tr><tr><td>image55.png</td><td>WINTER DIP PU</td><td>19</td><td>No article row at anchored excel_row</td></tr><tr><td>image54.png</td><td>WINTER DIP PVC</td><td>38</td><td>degenerate anchor extent (0 width/height); No article row at anchored excel_row</td></tr><tr><td>image55.png</td><td>WINTER DIP PVC</td><td>38</td><td>No article row at anchored excel_row</td></tr><tr><td>image54.png</td><td>SUMMER HEEL</td><td>48</td><td>degenerate anchor extent (0 width/height); No article row at anchored excel_row</td></tr><tr><td>image55.png</td><td>SUMMER HEEL</td><td>48</td><td>No article row at anchored excel_row</td></tr><tr><td>image54.png</td><td>SUMMER FLAT</td><td>47</td><td>degenerate anchor extent (0 width/height); No article row at anchored excel_row</td></tr><tr><td>image54.png</td><td>SUMMER PU</td><td>73</td><td>degenerate anchor extent (0 width/height); No article row at anchored excel_row</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Showing 12 of 17 template-candidate placements.</p>
+    </section>
+    
+  </main>
+</body>
+</html>

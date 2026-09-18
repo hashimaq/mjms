@@ -5,11 +5,11 @@ import Link from "next/link";
 
 export default function CollectionsLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="home-page collection-stub-layout">
+    <div className="home-page collection-layout">
       <HomePageAtmosphere />
       <PublicSiteHeader />
       <HomeMarquee variant="strip" />
-      <main className="collection-stub-main">{children}</main>
+      <main className="collection-main">{children}</main>
       <HomeMarquee variant="footer" />
       <footer className="home-footer">
         <div className="home-container">

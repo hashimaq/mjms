@@ -62,7 +62,7 @@ export function ProjectCard({
 
         "catalog-card mjms-fade-in group flex h-full flex-col overflow-hidden",
 
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5F4F92] focus-visible:ring-offset-2",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5F4F92] dark:focus-visible:ring-[#6FB0B0] focus-visible:ring-offset-2",
 
         className
 

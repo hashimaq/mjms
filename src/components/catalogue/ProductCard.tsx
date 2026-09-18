@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ProductCardVisual } from "./ProductCardVisual";
+import { ProductPlaceholder } from "./ProductPlaceholder";
 
 type ProductCardProps = {
   product: CatalogueProduct;
@@ -29,7 +29,15 @@ export function ProductCard({ product, className }: ProductCardProps) {
             className="catalogue-product-card-image"
           />
         ) : (
-          <ProductCardVisual />
+          <ProductPlaceholder
+            category={product.categorySlug}
+            season={product.seasonSlug}
+            seasonLabel={product.seasonLabel}
+            categoryLabel={product.categoryLabel}
+            referenceLabel={product.articleReference}
+            visualIndex={product.visualIndex}
+            size="card"
+          />
         )}
         <span className="catalogue-product-card-detail" aria-hidden>
           <ArrowUpRight className="h-4 w-4" />
@@ -38,6 +46,9 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
       <div className="catalogue-product-card-body">
         <h3 className="catalogue-product-card-title">{product.projectName}</h3>
+        {product.articleReference && (
+          <p className="catalogue-product-card-ref">{product.articleReference}</p>
+        )}
         <p className="catalogue-product-card-meta-line">
           <span>{product.seasonLabel}</span>
           <span aria-hidden>·</span>
@@ -75,6 +86,10 @@ export function ProductCard({ product, className }: ProductCardProps) {
             </div>
           )}
         </dl>
+        <span className="catalogue-product-card-cta">
+          View product
+          <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+        </span>
       </div>
     </Link>
   );

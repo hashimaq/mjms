@@ -17,11 +17,23 @@ export function CategoryCatalogueSection({
   category,
   catalogue,
 }: CategoryCatalogueSectionProps) {
-  const { products, total, page, pageSize, publicPreviewOnly } = catalogue;
+  const { products, total, page, pageSize, dataSource } = catalogue;
 
   return (
     <>
-      <CatalogueHeader season={season} category={category} />
+      <CatalogueHeader
+        season={season}
+        category={category}
+        totalCount={total}
+        dataSource={dataSource}
+      />
+
+      {dataSource === "demo" && (
+        <p className="catalogue-demo-banner" role="status">
+          Demonstration catalogue — visual structure for review until live records and HD product
+          visuals are connected.
+        </p>
+      )}
 
       <CategoryNav
         season={season}
@@ -30,19 +42,12 @@ export function CategoryCatalogueSection({
       />
 
       <section className="collection-products-region" aria-labelledby="catalogue-heading">
-        <h2 id="catalogue-heading" className="catalogue-section-label">
-          Product catalogue
-          {total > 0 && (
-            <span className="catalogue-section-count">{total.toLocaleString()} items</span>
-          )}
+        <h2 id="catalogue-heading" className="visually-hidden">
+          {season.title} — {category.label} product catalogue
         </h2>
 
         {products.length === 0 ? (
-          <CatalogueEmptyState
-            seasonTitle={season.title}
-            categoryLabel={category.label}
-            publicPreviewOnly={publicPreviewOnly}
-          />
+          <CatalogueEmptyState seasonTitle={season.title} categoryLabel={category.label} />
         ) : (
           <>
             <ProductGrid products={products} />

@@ -58,6 +58,7 @@ export function buildDemoCategoryProducts(
       qty: meta.qty,
       remarks: meta.remarks,
       imageUrl: null,
+      images: [],
       isDemo: true,
       visualIndex: i,
     });

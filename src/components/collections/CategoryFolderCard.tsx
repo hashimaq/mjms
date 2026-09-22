@@ -57,7 +57,6 @@ export function CategoryFolderCard({ season, category, summary }: CategoryFolder
     >
       <div className="category-folder-tab" aria-hidden>
         <span className="category-folder-tab-season">{season.shortTitle}</span>
-        <span className="category-folder-tab-label">{category.label}</span>
       </div>
 
       <div className="category-folder-collage" aria-hidden>
@@ -71,7 +70,7 @@ export function CategoryFolderCard({ season, category, summary }: CategoryFolder
       </div>
 
       <div className="category-folder-body">
-        <h2 className="category-folder-title">{category.label}</h2>
+        <h3 className="category-folder-title">{category.label.toUpperCase()}</h3>
         <p className="category-folder-desc">{category.description}</p>
         {showCount && (
           <p className="category-folder-count">

@@ -70,4 +70,13 @@ export const CATALOGUE_PAGE_SIZE = 24;
 export type ProductDetailResult =
   | { ok: true; product: CatalogueProduct }
   | { ok: false; message: string };
+
+export type CatalogueFilterFacets = {
+  making: string[];
+  type: string[];
+  material: string[];
+  colour: string[];
+};
+
+export type SearchCatalogueResult = CategoryCatalogueResult;
 

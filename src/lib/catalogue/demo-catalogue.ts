@@ -4,12 +4,15 @@
  */
 
 import {
+  CATEGORIES,
   getCategory,
   getSeason,
+  SEASON_SLUGS,
   type CategorySlug,
   type SeasonSlug,
 } from "@/lib/collections/config";
-import type { CatalogueProduct } from "./types";
+import type { CatalogueSearchParams } from "./search-params";
+import type { CatalogueFilterFacets, CatalogueProduct, SearchCatalogueResult } from "./types";
 import { CATALOGUE_PAGE_SIZE } from "./types";
 
 const DEMO_PER_CATEGORY = 8;
@@ -88,5 +91,89 @@ export function findDemoProduct(slug: string): CatalogueProduct | null {
 
 export function isDemoCatalogueSlug(slug: string): boolean {
   return slug.startsWith("demo-");
+}
+
+function buildSingleDemoProduct(
+  season: SeasonSlug,
+  category: CategorySlug,
+  index: number
+): CatalogueProduct {
+  const seasonDef = getSeason(season);
+  const categoryDef = getCategory(category);
+  const meta = DEMO_META_ROTATION[(index - 1) % DEMO_META_ROTATION.length];
+  const slug = demoSlug(season, category, index);
+  return {
+    id: slug,
+    slug,
+    projectName: `Development Reference ${String(index).padStart(2, "0")}`,
+    articleReference: `MJMS-DR-${season === "winter" ? "W" : "S"}-${category.toUpperCase().replace(/-/g, "")}-${String(index).padStart(2, "0")}`,
+    seasonSlug: season,
+    seasonLabel: seasonDef.shortTitle,
+    categorySlug: category,
+    categoryLabel: categoryDef.label,
+    making: meta.making,
+    type: meta.type,
+    material: meta.material,
+    colour: meta.colour,
+    sizeRange: meta.sizeRange,
+    qty: meta.qty,
+    remarks: meta.remarks,
+    imageUrl: null,
+    images: [],
+    isDemo: true,
+    visualIndex: index,
+  };
+}
+
+export function buildAllDemoProducts(): CatalogueProduct[] {
+  const products: CatalogueProduct[] = [];
+  for (const season of SEASON_SLUGS) {
+    for (const category of CATEGORIES) {
+      for (let i = 1; i <= DEMO_PER_CATEGORY; i++) {
+        products.push(buildSingleDemoProduct(season, category.slug, i));
+      }
+    }
+  }
+  return products;
+}
+
+function matchesDemoFilters(product: CatalogueProduct, params: CatalogueSearchParams): boolean {
+  if (params.season && product.seasonSlug !== params.season) return false;
+  if (params.category && product.categorySlug !== params.category) return false;
+  if (params.making && product.making !== params.making) return false;
+  if (params.type && product.type !== params.type) return false;
+  if (params.material && product.material !== params.material) return false;
+  if (params.colour && product.colour !== params.colour) return false;
+  if (params.q) {
+    const q = params.q.toLowerCase();
+    const inName = product.projectName.toLowerCase().includes(q);
+    const inRef = product.articleReference?.toLowerCase().includes(q) ?? false;
+    if (!inName && !inRef) return false;
+  }
+  return true;
+}
+
+export function searchDemoCatalogue(params: CatalogueSearchParams): SearchCatalogueResult {
+  const filtered = buildAllDemoProducts().filter((p) => matchesDemoFilters(p, params));
+  const pageSize = CATALOGUE_PAGE_SIZE;
+  const start = (params.page - 1) * pageSize;
+  const products = filtered.slice(start, start + pageSize);
+  return {
+    ok: true,
+    products,
+    total: filtered.length,
+    page: params.page,
+    pageSize,
+    dataSource: "demo",
+  };
+}
+
+export function getDemoFilterFacets(): CatalogueFilterFacets {
+  return {
+    making: [...new Set(DEMO_META_ROTATION.map((m) => m.making))].sort(),
+    type: [...new Set(DEMO_META_ROTATION.map((m) => m.type))].sort(),
+    material: [...new Set(DEMO_META_ROTATION.map((m) => m.material))].sort(),
+    colour: [...new Set(DEMO_META_ROTATION.map((m) => m.colour))].sort(),
+  };
 }
 

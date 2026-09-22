@@ -6,6 +6,7 @@ import { HomeHeroBackdrop, HomePageAtmosphere } from "./HomeBackdrop";
 
 import { HomeMarquee } from "./HomeMarquee";
 
+import { HomeCatalogueSearch } from "./HomeCatalogueSearch";
 import { PublicSiteHeader } from "./PublicSiteHeader";
 
 
@@ -138,11 +139,9 @@ export function HomePageContent() {
 
         </section>
 
-
+        <HomeCatalogueSearch />
 
         <HomeMarquee variant="strip" />
-
-
 
         <section id="collections" className="home-collections" aria-labelledby="collections-heading">
 

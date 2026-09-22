@@ -13,7 +13,7 @@ export function SearchCataloguePrompt() {
 
 export function EmptySearchState() {
   return (
-    <div className="catalogue-search-empty" role="status">
+    <div className="catalogue-search-empty catalogue-search-empty--inline" role="status">
       <SearchX className="catalogue-search-empty-icon" aria-hidden />
       <p className="catalogue-search-empty-title">No products found</p>
       <p className="catalogue-search-empty-text">

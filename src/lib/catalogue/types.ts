@@ -79,4 +79,15 @@ export type CatalogueFilterFacets = {
 };
 
 export type SearchCatalogueResult = CategoryCatalogueResult;
+
+/** Lightweight row for search autocomplete (no images or full product payload). */
+export type CatalogueSuggestion = {
+  slug: string;
+  projectName: string;
+  articleReference: string | null;
+};
+
+export type CatalogueSuggestionsResult =
+  | { ok: true; suggestions: CatalogueSuggestion[]; dataSource: CatalogueDataSource }
+  | { ok: false; message: string };
 

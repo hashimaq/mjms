@@ -98,7 +98,14 @@ export default async function SeasonCollectionPage({ params, searchParams }: Pag
             className="collection-products-region collection-search-results"
             aria-labelledby="season-search-results-heading"
           >
-            <h2 id="season-search-results-heading" className="collection-section-heading">
+            <h2
+              id="season-search-results-heading"
+              className={
+                result.products.length > 0
+                  ? "collection-section-heading"
+                  : "visually-hidden"
+              }
+            >
               {result.products.length > 0 ? (
                 <>
                   Matching products

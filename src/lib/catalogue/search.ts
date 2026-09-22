@@ -10,18 +10,29 @@ import { createServiceRoleClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { mapArticleRowToProduct, type ArticleCatalogueRow } from "./article-map";
-import { searchDemoCatalogue, getDemoFilterFacets } from "./demo-catalogue";
+import { getDemoFilterFacets, searchDemoCatalogue, suggestDemoCatalogue } from "./demo-catalogue";
 import { fetchCoverImageUrlsByArticleId } from "./images";
 import type { CatalogueSearchParams } from "./search-params";
 import type {
   CatalogueFilterFacets,
   CatalogueProduct,
+  CatalogueSuggestion,
+  CatalogueSuggestionsResult,
   SearchCatalogueResult,
 } from "./types";
 import { CATALOGUE_PAGE_SIZE as PAGE_SIZE } from "./types";
 
 const LIST_SELECT =
   "id, project_raw, source_no, source_sheet, making_raw, making_normalized, type_raw, type_normalized, material_raw, colour_raw, size_range_raw, qty_raw, remarks_raw";
+
+const SUGGEST_SELECT = "id, project_raw, source_no, source_sheet";
+
+import {
+  CATALOGUE_SUGGEST_LIMIT,
+  CATALOGUE_SUGGEST_MIN_CHARS,
+} from "./search-constants";
+
+export { CATALOGUE_SUGGEST_LIMIT, CATALOGUE_SUGGEST_MIN_CHARS } from "./search-constants";
 
 async function createCatalogueReaderClient(): Promise<SupabaseClient | null> {
   if (await getDemoSession()) {
@@ -173,6 +184,73 @@ async function fetchLiveFilterFacets(supabase: SupabaseClient): Promise<Catalogu
     type: uniqueSorted(rows.flatMap((r) => [r.type_normalized, r.type_raw])),
     material: uniqueSorted(rows.map((r) => r.material_raw)),
     colour: uniqueSorted(rows.map((r) => r.colour_raw)),
+  };
+}
+
+async function suggestLiveCatalogue(
+  supabase: SupabaseClient,
+  params: Pick<CatalogueSearchParams, "q" | "season" | "category">
+): Promise<CatalogueSuggestion[]> {
+  const term = params.q.trim().replace(/[%_]/g, "\\$&");
+  if (term.length < CATALOGUE_SUGGEST_MIN_CHARS) return [];
+
+  let query = supabase.from("articles").select(SUGGEST_SELECT).limit(CATALOGUE_SUGGEST_LIMIT);
+
+  const sheets = resolveSourceSheets(params.season, params.category);
+  if (sheets?.length === 1) {
+    query = query.eq("source_sheet", sheets[0]!);
+  } else if (sheets && sheets.length > 0) {
+    query = query.in("source_sheet", sheets);
+  }
+
+  query = query.or(`project_raw.ilike.%${term}%,source_no.ilike.%${term}%`);
+  query = query.order("project_raw", { ascending: true });
+
+  const { data, error } = await query;
+  if (error || !data) return [];
+
+  type Row = { id: string; project_raw: string; source_no: string | null; source_sheet: string };
+  const rows = data as Row[];
+  const suggestions: CatalogueSuggestion[] = [];
+
+  for (const row of rows) {
+    const product = mapArticleRowToProduct(row as ArticleCatalogueRow, 1);
+    if (!product) continue;
+    suggestions.push({
+      slug: product.slug,
+      projectName: product.projectName,
+      articleReference: product.articleReference,
+    });
+  }
+
+  return suggestions;
+}
+
+export async function suggestCatalogue(
+  params: Pick<CatalogueSearchParams, "q" | "season" | "category">
+): Promise<CatalogueSuggestionsResult> {
+  const q = params.q.trim();
+  if (q.length < CATALOGUE_SUGGEST_MIN_CHARS) {
+    return { ok: true, suggestions: [], dataSource: "demo" };
+  }
+
+  const client = await createCatalogueReaderClient();
+
+  if (client) {
+    try {
+      const suggestions = await suggestLiveCatalogue(client, { ...params, q });
+      if (suggestions.length > 0) {
+        return { ok: true, suggestions, dataSource: "live" };
+      }
+    } catch {
+      /* demo fallback */
+    }
+  }
+
+  return {
+    ok: true,
+    suggestions: suggestDemoCatalogue({ ...params, q }, CATALOGUE_SUGGEST_LIMIT),
+    dataSource: "demo",
   };
 }
 

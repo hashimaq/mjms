@@ -1,6 +1,6 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { CatalogueSearchInput } from "@/components/catalogue/search/CatalogueSearchInput";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -37,18 +37,14 @@ export function HomeCatalogueSearch() {
           </header>
 
           <form className="home-catalogue-search-form" onSubmit={onSubmit}>
-            <div className="home-catalogue-search-field">
-              <Search className="home-catalogue-search-icon" aria-hidden />
-              <input
-                type="search"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Search products or projects..."
-                aria-label="Search products or projects"
-                className="home-catalogue-search-input"
-                autoComplete="off"
-              />
-            </div>
+            <CatalogueSearchInput
+              value={q}
+              onChange={setQ}
+              inputClassName="home-catalogue-search-input"
+              wrapClassName="home-catalogue-search-field"
+              iconClassName="home-catalogue-search-icon"
+              clearButtonClassName="catalogue-search-toolbar-clear home-catalogue-search-clear"
+            />
             <button type="submit" className="mjms-btn mjms-btn-primary mjms-btn-md">
               Search
             </button>

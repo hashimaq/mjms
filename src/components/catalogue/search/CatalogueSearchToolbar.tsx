@@ -14,7 +14,8 @@ import {
 } from "@/lib/catalogue/search-params";
 import type { CatalogueFilterFacets } from "@/lib/catalogue/types";
 import { cn } from "@/lib/utils";
-import { Filter, Search, X } from "lucide-react";
+import { Filter, X } from "lucide-react";
+import { CatalogueSearchInput } from "./CatalogueSearchInput";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { ActiveFilterChips } from "./ActiveFilterChips";
@@ -274,29 +275,13 @@ export function CatalogueSearchToolbar({
   return (
     <div className="catalogue-search-toolbar">
       <form className="catalogue-search-form" onSubmit={onSearchSubmit}>
-        <div className="catalogue-search-field-wrap">
-          <Search className="catalogue-search-toolbar-icon" aria-hidden />
-          <input
-            type="search"
-            name="q"
-            value={draft.q}
-            onChange={(e) => setDraft({ ...draft, q: e.target.value })}
-            placeholder="Search products or projects..."
-            aria-label="Search products or projects"
-            className="catalogue-search-toolbar-input"
-            autoComplete="off"
-          />
-          {draft.q && (
-            <button
-              type="button"
-              className="catalogue-search-toolbar-clear"
-              aria-label="Clear search"
-              onClick={() => setDraft({ ...draft, q: "" })}
-            >
-              <X className="h-4 w-4" />
-            </button>
-          )}
-        </div>
+        <CatalogueSearchInput
+          value={draft.q}
+          onChange={(q) => setDraft({ ...draft, q })}
+          inputClassName="catalogue-search-toolbar-input"
+          season={lockedSeason}
+          category={lockedCategory}
+        />
         <button type="submit" className="mjms-btn mjms-btn-primary mjms-btn-md catalogue-search-submit">
           Search
         </button>

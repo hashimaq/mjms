@@ -12,7 +12,12 @@ import {
   type SeasonSlug,
 } from "@/lib/collections/config";
 import type { CatalogueSearchParams } from "./search-params";
-import type { CatalogueFilterFacets, CatalogueProduct, SearchCatalogueResult } from "./types";
+import type {
+  CatalogueFilterFacets,
+  CatalogueProduct,
+  CatalogueSuggestion,
+  SearchCatalogueResult,
+} from "./types";
 import { CATALOGUE_PAGE_SIZE } from "./types";
 
 const DEMO_PER_CATEGORY = 8;
@@ -151,6 +156,24 @@ function matchesDemoFilters(product: CatalogueProduct, params: CatalogueSearchPa
     if (!inName && !inRef) return false;
   }
   return true;
+}
+
+export function suggestDemoCatalogue(
+  params: Pick<CatalogueSearchParams, "q" | "season" | "category">,
+  limit: number
+): CatalogueSuggestion[] {
+  const q = params.q.trim();
+  if (q.length < 2) return [];
+
+  const filtered = buildAllDemoProducts().filter((p) =>
+    matchesDemoFilters(p, { ...params, q, page: 1 })
+  );
+
+  return filtered.slice(0, limit).map((p) => ({
+    slug: p.slug,
+    projectName: p.projectName,
+    articleReference: p.articleReference,
+  }));
 }
 
 export function searchDemoCatalogue(params: CatalogueSearchParams): SearchCatalogueResult {

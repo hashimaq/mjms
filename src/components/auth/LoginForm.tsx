@@ -5,9 +5,9 @@ import { Eye, EyeOff } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 
-function safeRedirect(value: string | null): string {
+function safeRedirect(value: string | null, fallback: string): string {
   if (!value || !value.startsWith("/") || value.startsWith("//")) {
-    return "/projects";
+    return fallback;
   }
   return value;
 }
@@ -15,7 +15,7 @@ function safeRedirect(value: string | null): string {
 export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = safeRedirect(searchParams.get("redirect"));
+  const redirectParam = searchParams.get("redirect");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,13 +43,13 @@ export function LoginForm() {
       setError(null);
 
       try {
-        const res = await fetch("/api/auth/demo-login", {
+        const res = await fetch("/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: email.trim(), password }),
         });
 
-        let data: { error?: string } = {};
+        let data: { error?: string; redirect?: string } = {};
         try {
           data = await res.json();
         } catch {
@@ -61,7 +61,14 @@ export function LoginForm() {
           return;
         }
 
-        router.push(redirect);
+        const nextPath = redirectParam
+          ? safeRedirect(redirectParam, "/employee")
+          : null;
+        const welcomePath =
+          nextPath && nextPath !== "/welcome"
+            ? `/welcome?next=${encodeURIComponent(nextPath)}`
+            : "/welcome";
+        router.push(welcomePath);
         router.refresh();
       } catch {
         setError("Something went wrong. Please try again.");
@@ -69,7 +76,7 @@ export function LoginForm() {
         setLoading(false);
       }
     },
-    [email, password, redirect, router, validate]
+    [email, password, redirectParam, router, validate]
   );
 
   return (
@@ -82,15 +89,17 @@ export function LoginForm() {
         noValidate
       >
         <header className="login-form-header">
-          <p className="login-form-eyebrow">MJMS</p>
-          <h2 className="login-welcome">Employee Login</h2>
-          <p className="login-form-subtitle">Sign in to manage the product development catalogue.</p>
+          <p className="login-form-eyebrow">MJMS Product Development</p>
+          <h2 className="login-welcome">Staff login</h2>
+          <p className="login-form-subtitle">
+            Sign in to access the MJMS product development workspace.
+          </p>
         </header>
 
         <div className="login-fields">
           <div className="login-field-group">
             <label htmlFor="email" className="login-field-label">
-              Email
+              Work email
             </label>
             <input
               id="email"
@@ -102,7 +111,7 @@ export function LoginForm() {
                 setFieldErrors((p) => ({ ...p, email: undefined }));
                 setError(null);
               }}
-              placeholder="you@company.com"
+              placeholder="name@mjms.pk"
               disabled={loading}
               aria-invalid={Boolean(fieldErrors.email)}
               className="login-field"
@@ -173,7 +182,7 @@ export function LoginForm() {
         )}
 
         <Button type="submit" variant="primary" size="lg" loading={loading} className="login-submit">
-          Sign in
+          Sign In
         </Button>
       </form>
     </div>

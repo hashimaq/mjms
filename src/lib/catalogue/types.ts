@@ -11,6 +11,15 @@ export type CatalogueProductImage = {
   alt: string;
 };
 
+/** Gallery row metadata for client-side progressive URL signing (detail page). */
+export type CatalogueGalleryItemMeta = {
+  id: string;
+  storagePath: string;
+  isPrimary: boolean;
+  width: number | null;
+  height: number | null;
+};
+
 /** Public catalogue row — article id is canonical; project name is display, not unique key. */
 export type CatalogueProduct = {
   id: string;
@@ -28,9 +37,16 @@ export type CatalogueProduct = {
   sizeRange: string | null;
   qty: string | null;
   remarks: string | null;
-  /** Primary/cover URL — same as first gallery image when images exist. */
+  /** Primary/cover URL — first collage preview when photos exist. */
   imageUrl: string | null;
+  /** Up to 4 signed previews for listing collage (not the full gallery). */
+  collageImages: CatalogueProductImage[];
+  /** Total photos for this product (may exceed collageImages.length). */
+  photoCount: number;
+  /** Full gallery on detail/edit only. Listing pages leave this empty and use collageImages. */
   images: CatalogueProductImage[];
+  /** Live detail: all photos as metadata; URLs load progressively on the client. */
+  galleryItems?: CatalogueGalleryItemMeta[];
   isDemo: boolean;
   /** Visual index for placeholder composition (1-based). */
   visualIndex: number;

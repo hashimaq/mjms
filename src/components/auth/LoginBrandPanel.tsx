@@ -13,7 +13,8 @@ export function LoginBrandPanel() {
             MJMS Product Development
           </h1>
           <p className="login-brand-tagline">
-            Footwear product development — collections, styles, and catalogue records.
+            Internal product development platform — collections, catalogue, and team
+            activity in one workspace.
           </p>
         </div>
       </div>

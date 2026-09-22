@@ -37,6 +37,8 @@ export function ProductImage({
         alt={alt}
         fill
         priority={priority}
+        loading={priority ? undefined : "lazy"}
+        decoding="async"
         sizes={
           variant === "detail"
             ? "(max-width: 900px) 100vw, 50vw"

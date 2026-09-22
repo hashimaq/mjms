@@ -1,4 +1,4 @@
-import { getDemoSession } from "@/lib/auth/demo-session";
+import { getCatalogueReaderClient } from "@/lib/catalogue/catalogue-reader";
 import {
   getCategory,
   getCategorySourceSheet,
@@ -6,20 +6,17 @@ import {
   type CategorySlug,
   type SeasonSlug,
 } from "@/lib/collections/config";
-import { createServiceRoleClient } from "@/lib/supabase/admin";
-import { createClient } from "@/lib/supabase/server";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { buildDemoCategoryProducts, findDemoProduct, isDemoCatalogueSlug } from "./demo-catalogue";
-import {
-  fetchCoverImageUrlsByArticleId,
-  fetchGalleryImagesForArticle,
-} from "./images";
+import { attachCollageToProducts } from "./attach-product-collage";
+import { fetchGalleryMetaForArticle } from "./images";
 import type {
   CatalogueProduct,
   CategoryCatalogueResult,
   ProductDetailResult,
 } from "./types";
 import { CATALOGUE_PAGE_SIZE as PAGE_SIZE } from "./types";
+import { cache } from "react";
 
 export { CATALOGUE_PAGE_SIZE } from "./types";
 
@@ -70,35 +67,14 @@ function mapArticleToProduct(
     qty: row.qty_raw?.trim() || null,
     remarks: row.remarks_raw?.trim() || null,
     imageUrl: null,
+    collageImages: [],
+    photoCount: 0,
     images: [],
     isDemo: false,
     visualIndex,
   };
 }
 
-async function attachCoverImagesToProducts(
-  supabase: SupabaseClient,
-  products: CatalogueProduct[]
-): Promise<void> {
-  const ids = products.filter((p) => !p.isDemo).map((p) => p.id);
-  const covers = await fetchCoverImageUrlsByArticleId(supabase, ids);
-  for (const product of products) {
-    const url = covers.get(product.id);
-    if (url) {
-      product.imageUrl = url;
-      product.images = [
-        {
-          id: `${product.id}-cover`,
-          url,
-          isPrimary: true,
-          width: null,
-          height: null,
-          alt: `${product.projectName} — ${product.seasonLabel} ${product.categoryLabel}`,
-        },
-      ];
-    }
-  }
-}
 
 async function fetchCategoryArticles(
   supabase: SupabaseClient,
@@ -127,7 +103,7 @@ async function fetchCategoryArticles(
 
   const rows = (data ?? []) as ArticleCatalogueRow[];
   const products = rows.map((row, i) => mapArticleToProduct(row, season, category, from + i + 1));
-  await attachCoverImagesToProducts(supabase, products);
+  await attachCollageToProducts(supabase, products);
 
   return {
     ok: true,
@@ -139,32 +115,18 @@ async function fetchCategoryArticles(
   };
 }
 
-async function createCatalogueReaderClient(): Promise<SupabaseClient | null> {
-  if (await getDemoSession()) {
-    return createServiceRoleClient();
-  }
-
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return null;
-  return supabase;
-}
-
 export async function getCategoryCatalogue(
   season: SeasonSlug,
   category: CategorySlug,
   page: number
 ): Promise<CategoryCatalogueResult> {
   const safePage = Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
-  const client = await createCatalogueReaderClient();
+  const client = await getCatalogueReaderClient();
 
   if (client) {
     try {
       const live = await fetchCategoryArticles(client, season, category, safePage);
-      if (live.ok && live.total > 0) {
+      if (live.ok) {
         return live;
       }
     } catch {
@@ -205,11 +167,75 @@ async function fetchLiveProductById(
   if (!category) return null;
 
   const product = mapArticleToProduct(row, season, category, 1);
-  const altBase = `${product.projectName} — ${product.seasonLabel} ${product.categoryLabel}`;
-  const images = await fetchGalleryImagesForArticle(supabase, id, altBase);
-  product.images = images;
-  product.imageUrl = images[0]?.url ?? null;
+  const gallery = await fetchGalleryMetaForArticle(supabase, id);
+  product.galleryItems = gallery.items;
+  product.photoCount = gallery.totalCount;
+  product.images = [];
+  product.collageImages = [];
+  product.imageUrl = null;
   return product;
+}
+
+async function fetchLiveProductHeading(
+  supabase: SupabaseClient,
+  id: string
+): Promise<{ projectName: string; seasonLabel: string; categoryLabel: string } | null> {
+  const { data, error } = await supabase
+    .from("articles")
+    .select("project_raw, source_sheet")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error || !data) return null;
+
+  const row = data as { project_raw: string; source_sheet: string };
+  const season: SeasonSlug | null = row.source_sheet.startsWith("WINTER")
+    ? "winter"
+    : row.source_sheet.startsWith("SUMMER")
+      ? "summer"
+      : null;
+  if (!season) return null;
+
+  const category = inferCategoryFromSheet(row.source_sheet);
+  if (!category) return null;
+
+  const seasonConfig = getSeason(season);
+  const categoryConfig = getCategory(category);
+
+  return {
+    projectName: row.project_raw.trim(),
+    seasonLabel: seasonConfig.shortTitle,
+    categoryLabel: categoryConfig.label,
+  };
+}
+
+export async function getProductDetailHeading(
+  slug: string
+): Promise<{ title: string; description: string } | null> {
+  if (!slug?.trim()) return null;
+
+  if (isDemoCatalogueSlug(slug)) {
+    const demo = findDemoProduct(slug);
+    if (!demo) return null;
+    return {
+      title: `${demo.projectName} — MJMS Product Development`,
+      description: `${demo.projectName} — ${demo.seasonLabel} ${demo.categoryLabel} product development catalogue.`,
+    };
+  }
+
+  const client = await getCatalogueReaderClient();
+  if (!client) return null;
+
+  try {
+    const heading = await fetchLiveProductHeading(client, slug);
+    if (!heading) return null;
+    return {
+      title: `${heading.projectName} — MJMS Product Development`,
+      description: `${heading.projectName} — ${heading.seasonLabel} ${heading.categoryLabel} product development catalogue.`,
+    };
+  } catch {
+    return null;
+  }
 }
 
 function inferCategoryFromSheet(sheet: string): CategorySlug | null {
@@ -221,7 +247,7 @@ function inferCategoryFromSheet(sheet: string): CategorySlug | null {
   return null;
 }
 
-export async function getProductDetail(slug: string): Promise<ProductDetailResult> {
+export const getProductDetail = cache(async (slug: string): Promise<ProductDetailResult> => {
   if (!slug?.trim()) {
     return { ok: false, message: "Product not found." };
   }
@@ -231,7 +257,7 @@ export async function getProductDetail(slug: string): Promise<ProductDetailResul
     return demo ? { ok: true, product: demo } : { ok: false, message: "Product not found." };
   }
 
-  const client = await createCatalogueReaderClient();
+  const client = await getCatalogueReaderClient();
   if (!client) {
     return { ok: false, message: "Product not found." };
   }
@@ -245,5 +271,5 @@ export async function getProductDetail(slug: string): Promise<ProductDetailResul
   } catch {
     return { ok: false, message: "Unable to load this product." };
   }
-}
+});
 

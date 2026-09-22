@@ -3,6 +3,9 @@ import { ThemeScript } from "@/lib/theme/ThemeScript";
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
+import "./mjms-design-tokens.css";
+import "./mjms-workspace.css";
+import "./mjms-workspace-presentation.css";
 
 const manrope = Manrope({
   subsets: ["latin"],

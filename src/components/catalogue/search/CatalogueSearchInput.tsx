@@ -22,6 +22,7 @@ type CatalogueSearchInputProps = {
   category?: CategorySlug;
   /** When set, selecting a suggestion navigates here with ?q= instead of product detail. */
   preferSearchNavigation?: boolean;
+  searchNavigatePath?: string;
 };
 
 export function CatalogueSearchInput({
@@ -34,6 +35,7 @@ export function CatalogueSearchInput({
   season,
   category,
   preferSearchNavigation = false,
+  searchNavigatePath = "/search",
 }: CatalogueSearchInputProps) {
   const router = useRouter();
   const listId = useId();
@@ -102,12 +104,14 @@ export function CatalogueSearchInput({
       setActiveIndex(-1);
       if (preferSearchNavigation) {
         onChange(item.projectName);
-        router.push(`/search?q=${encodeURIComponent(item.projectName)}`);
+        router.push(
+          `${searchNavigatePath}?q=${encodeURIComponent(item.projectName || item.articleReference || "")}`
+        );
         return;
       }
       router.push(`/products/${encodeURIComponent(item.slug)}`);
     },
-    [onChange, preferSearchNavigation, router]
+    [onChange, preferSearchNavigation, router, searchNavigatePath]
   );
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

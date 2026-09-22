@@ -10,6 +10,7 @@ type CategoryFolderCardProps = {
   season: SeasonDefinition;
   category: CategoryDefinition;
   summary: CategorySummary;
+  href?: string;
 };
 
 function FolderCollageSlot({
@@ -44,7 +45,12 @@ function FolderCollageSlot({
   );
 }
 
-export function CategoryFolderCard({ season, category, summary }: CategoryFolderCardProps) {
+export function CategoryFolderCard({
+  season,
+  category,
+  summary,
+  href,
+}: CategoryFolderCardProps) {
   const showCount =
     summary.dataSource === "live" &&
     summary.productCount != null &&
@@ -52,9 +58,14 @@ export function CategoryFolderCard({ season, category, summary }: CategoryFolder
 
   return (
     <Link
-      href={categoryPath(season.slug, category.slug)}
-      className={cn("category-folder-card", `category-folder-card--${season.accent}`)}
+      href={href ?? categoryPath(season.slug, category.slug)}
+      className={cn(
+        "category-folder-card",
+        `category-folder-card--${season.accent}`,
+        `category-folder-card--kind-${category.slug}`
+      )}
     >
+      <span className="category-folder-geometry" aria-hidden />
       <div className="category-folder-tab" aria-hidden>
         <span className="category-folder-tab-season">{season.shortTitle}</span>
       </div>

@@ -1,4 +1,4 @@
-import { getDemoSession } from "@/lib/auth/demo-session";
+import { getCatalogueReaderClient } from "@/lib/catalogue/catalogue-reader";
 import {
   CATEGORIES,
   getCategorySourceSheet,
@@ -6,12 +6,12 @@ import {
   type CategorySlug,
   type SeasonSlug,
 } from "@/lib/collections/config";
-import { createServiceRoleClient } from "@/lib/supabase/admin";
-import { createClient } from "@/lib/supabase/server";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { unstable_cache } from "next/cache";
 import { mapArticleRowToProduct, type ArticleCatalogueRow } from "./article-map";
 import { getDemoFilterFacets, searchDemoCatalogue, suggestDemoCatalogue } from "./demo-catalogue";
-import { fetchCoverImageUrlsByArticleId } from "./images";
+import { attachCollageToProducts } from "./attach-product-collage";
+import { CATALOGUE_FACETS_TAG } from "./revalidate-catalogue";
 import type { CatalogueSearchParams } from "./search-params";
 import type {
   CatalogueFilterFacets,
@@ -34,18 +34,6 @@ import {
 
 export { CATALOGUE_SUGGEST_LIMIT, CATALOGUE_SUGGEST_MIN_CHARS } from "./search-constants";
 
-async function createCatalogueReaderClient(): Promise<SupabaseClient | null> {
-  if (await getDemoSession()) {
-    return createServiceRoleClient();
-  }
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
-  return supabase;
-}
-
 function resolveSourceSheets(
   season?: SeasonSlug,
   category?: CategorySlug
@@ -62,29 +50,6 @@ function resolveSourceSheets(
   return null;
 }
 
-async function attachCoverImagesToProducts(
-  supabase: SupabaseClient,
-  products: CatalogueProduct[]
-): Promise<void> {
-  const ids = products.filter((p) => !p.isDemo).map((p) => p.id);
-  const covers = await fetchCoverImageUrlsByArticleId(supabase, ids);
-  for (const product of products) {
-    const url = covers.get(product.id);
-    if (url) {
-      product.imageUrl = url;
-      product.images = [
-        {
-          id: `${product.id}-cover`,
-          url,
-          isPrimary: true,
-          width: null,
-          height: null,
-          alt: `${product.projectName} — ${product.seasonLabel} ${product.categoryLabel}`,
-        },
-      ];
-    }
-  }
-}
 
 async function searchLiveCatalogue(
   supabase: SupabaseClient,
@@ -138,7 +103,7 @@ async function searchLiveCatalogue(
     if (product) products.push(product);
   });
 
-  await attachCoverImagesToProducts(supabase, products);
+  await attachCollageToProducts(supabase, products);
 
   return {
     ok: true,
@@ -234,7 +199,7 @@ export async function suggestCatalogue(
     return { ok: true, suggestions: [], dataSource: "demo" };
   }
 
-  const client = await createCatalogueReaderClient();
+  const client = await getCatalogueReaderClient();
 
   if (client) {
     try {
@@ -255,7 +220,7 @@ export async function suggestCatalogue(
 }
 
 export async function searchCatalogue(params: CatalogueSearchParams): Promise<SearchCatalogueResult> {
-  const client = await createCatalogueReaderClient();
+  const client = await getCatalogueReaderClient();
 
   if (client) {
     try {
@@ -268,21 +233,44 @@ export async function searchCatalogue(params: CatalogueSearchParams): Promise<Se
   return searchDemoCatalogue(params);
 }
 
+const getCachedLiveFilterFacets = unstable_cache(
+  async () => {
+    const { createServiceRoleClient } = await import("@/lib/supabase/admin");
+    const client = createServiceRoleClient();
+    return fetchLiveFilterFacets(client);
+  },
+  [CATALOGUE_FACETS_TAG],
+  { revalidate: 120, tags: [CATALOGUE_FACETS_TAG] }
+);
+
+function facetsHaveValues(facets: CatalogueFilterFacets): boolean {
+  return (
+    facets.making.length > 0 ||
+    facets.type.length > 0 ||
+    facets.material.length > 0 ||
+    facets.colour.length > 0
+  );
+}
+
 export async function getCatalogueFilterFacets(): Promise<{
   facets: CatalogueFilterFacets;
   dataSource: "live" | "demo";
 }> {
-  const client = await createCatalogueReaderClient();
+  try {
+    const cached = await getCachedLiveFilterFacets();
+    if (cached && facetsHaveValues(cached)) {
+      return { facets: cached, dataSource: "live" };
+    }
+  } catch {
+    /* uncached fallback */
+  }
+
+  const client = await getCatalogueReaderClient();
   if (client) {
     try {
-      const facets = await fetchLiveFilterFacets(client);
-      const hasValues =
-        facets.making.length > 0 ||
-        facets.type.length > 0 ||
-        facets.material.length > 0 ||
-        facets.colour.length > 0;
-      if (hasValues) {
-        return { facets, dataSource: "live" };
+      const liveFacets = await fetchLiveFilterFacets(client);
+      if (facetsHaveValues(liveFacets)) {
+        return { facets: liveFacets, dataSource: "live" };
       }
     } catch {
       /* demo fallback */

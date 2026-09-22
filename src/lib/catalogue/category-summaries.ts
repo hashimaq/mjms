@@ -4,31 +4,23 @@ import {
   type CategorySlug,
   type SeasonSlug,
 } from "@/lib/collections/config";
-import { createServiceRoleClient } from "@/lib/supabase/admin";
-import { createClient } from "@/lib/supabase/server";
+import { getCatalogueReaderClient } from "@/lib/catalogue/catalogue-reader";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { getDemoSession } from "@/lib/auth/demo-session";
 import { fetchCoverImageUrlsByArticleId } from "./images";
 import type { CategoryPreviewSlot, CategorySummary } from "./types";
 
 const PREVIEW_SLOT_COUNT = 4;
 
-async function createSummaryReaderClient(): Promise<SupabaseClient | null> {
-  if (await getDemoSession()) {
-    return createServiceRoleClient();
-  }
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
-  return supabase;
-}
+export type CategorySummaryOptions = {
+  /** Skip signed URL work on folder cards (workspace routes). Public catalogue may enable. */
+  includePreviewImages?: boolean;
+};
 
 async function fetchLiveCategorySummary(
   supabase: SupabaseClient,
   season: SeasonSlug,
-  category: CategorySlug
+  category: CategorySlug,
+  options?: CategorySummaryOptions
 ): Promise<CategorySummary> {
   const sourceSheet = getCategorySourceSheet(season, category);
 
@@ -39,24 +31,33 @@ async function fetchLiveCategorySummary(
 
   const productCount = countError ? null : count ?? 0;
 
-  const { data: previewRows } = await supabase
-    .from("articles")
-    .select("id")
-    .eq("source_sheet", sourceSheet)
-    .order("project_raw", { ascending: true })
-    .limit(PREVIEW_SLOT_COUNT);
+  let previewSlots: CategoryPreviewSlot[];
 
-  const ids = (previewRows ?? []).map((r) => r.id as string);
-  const coverUrls = await fetchCoverImageUrlsByArticleId(supabase, ids);
-
-  const previewSlots: CategoryPreviewSlot[] = Array.from({ length: PREVIEW_SLOT_COUNT }, (_, i) => {
-    const articleId = ids[i];
-    const imageUrl = articleId ? coverUrls.get(articleId) ?? null : null;
-    return {
-      imageUrl,
+  if (options?.includePreviewImages === false) {
+    previewSlots = Array.from({ length: PREVIEW_SLOT_COUNT }, (_, i) => ({
+      imageUrl: null,
       visualIndex: i + 1,
-    };
-  });
+    }));
+  } else {
+    const { data: previewRows } = await supabase
+      .from("articles")
+      .select("id")
+      .eq("source_sheet", sourceSheet)
+      .order("project_raw", { ascending: true })
+      .limit(PREVIEW_SLOT_COUNT);
+
+    const ids = (previewRows ?? []).map((r) => r.id as string);
+    const coverUrls = await fetchCoverImageUrlsByArticleId(supabase, ids);
+
+    previewSlots = Array.from({ length: PREVIEW_SLOT_COUNT }, (_, i) => {
+      const articleId = ids[i];
+      const imageUrl = articleId ? coverUrls.get(articleId) ?? null : null;
+      return {
+        imageUrl,
+        visualIndex: i + 1,
+      };
+    });
+  }
 
   return {
     categorySlug: category,
@@ -78,13 +79,16 @@ function buildDemoCategorySummary(category: CategorySlug): CategorySummary {
   };
 }
 
-export async function getSeasonCategorySummaries(season: SeasonSlug): Promise<CategorySummary[]> {
-  const client = await createSummaryReaderClient();
+export async function getSeasonCategorySummaries(
+  season: SeasonSlug,
+  options?: CategorySummaryOptions
+): Promise<CategorySummary[]> {
+  const client = await getCatalogueReaderClient();
 
   if (client) {
     try {
       const summaries = await Promise.all(
-        CATEGORIES.map((cat) => fetchLiveCategorySummary(client, season, cat.slug))
+        CATEGORIES.map((cat) => fetchLiveCategorySummary(client, season, cat.slug, options))
       );
       const hasLive = summaries.some((s) => s.productCount != null && s.productCount > 0);
       if (hasLive) {

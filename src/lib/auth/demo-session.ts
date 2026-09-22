@@ -33,10 +33,11 @@ export async function getDemoSession(): Promise<DemoSessionPayload | null> {
 }
 
 export function demoSessionToUser(session: DemoSessionPayload): UserProfile {
+  const fullName = session.fullName?.trim() || null;
   return {
     id: session.role === "admin" ? "demo-admin" : "demo-staff",
     email: session.email,
-    fullName: session.fullName,
+    fullName,
     role: session.role,
   };
 }

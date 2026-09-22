@@ -2,13 +2,15 @@ import { CollectionBreadcrumbs } from "@/components/collections/CollectionBreadc
 import { categoryPath, collectionPath } from "@/lib/collections/config";
 import type { CatalogueProduct } from "@/lib/catalogue/types";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { ProductGallery } from "./ProductGallery";
 
 type ProductDetailViewProps = {
   product: CatalogueProduct;
+  manageActions?: ReactNode;
 };
 
-export function ProductDetailView({ product }: ProductDetailViewProps) {
+export function ProductDetailView({ product, manageActions }: ProductDetailViewProps) {
   return (
     <article className="product-detail">
       <CollectionBreadcrumbs
@@ -64,6 +66,7 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
           )}
 
           <div className="product-detail-actions">
+            {manageActions}
             <Link
               href={categoryPath(product.seasonSlug, product.categorySlug)}
               className="mjms-btn mjms-btn-secondary mjms-btn-md"

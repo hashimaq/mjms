@@ -2,29 +2,14 @@
 
 import { useLoginGeometryMasks } from "@/hooks/useLoginGeometryMasks";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { useRef, type CSSProperties } from "react";
 import { LoginBrandPanel } from "./LoginBrandPanel";
 import { LoginForm } from "./LoginForm";
 import { LoginMobileDecor } from "./LoginMobileDecor";
-import { LoginSplash } from "./LoginSplash";
-
-const SPLASH_KEY = "mjms-splash-seen";
 
 export function LoginPageClient() {
-  const [phase, setPhase] = useState<"pending" | "splash" | "login">("pending");
   const shellRef = useRef<HTMLDivElement>(null);
-  const masks = useLoginGeometryMasks(shellRef, phase === "login");
-
-  useEffect(() => {
-    setPhase(sessionStorage.getItem(SPLASH_KEY) === "1" ? "login" : "splash");
-  }, []);
-
-  const handleSplashComplete = useCallback(() => {
-    setPhase("login");
-  }, []);
-
-  const showSplash = phase === "splash";
-  const showLogin = phase === "login";
+  const masks = useLoginGeometryMasks(shellRef, true);
 
   const shellStyle = {
     "--login-shell-geometry-mask": masks.shell,
@@ -32,27 +17,23 @@ export function LoginPageClient() {
   } as CSSProperties;
 
   return (
-    <>
-      {showSplash && <LoginSplash onComplete={handleSplashComplete} />}
-      <div
-        ref={shellRef}
-        className={`login-shell ${showLogin ? "login-shell--visible" : "login-shell--hidden"}`}
-        style={shellStyle}
-        aria-hidden={!showLogin}
-      >
-        <LoginMobileDecor />
-        <LoginBrandPanel />
+    <div
+      ref={shellRef}
+      className="login-shell login-shell--visible"
+      style={shellStyle}
+    >
+      <LoginMobileDecor />
+      <LoginBrandPanel />
 
-        <section className="login-auth">
-          <div className="login-auth-toolbar">
-            <ThemeToggle size="md" className="login-theme-toggle mjms-theme-toggle mjms-theme-toggle--md" />
-          </div>
+      <section className="login-auth" aria-label="Sign in">
+        <div className="login-auth-toolbar">
+          <ThemeToggle size="md" className="login-theme-toggle mjms-theme-toggle mjms-theme-toggle--md" />
+        </div>
 
-          <div className="login-auth-inner mjms-fade-in mjms-fade-in-delay">
-            <LoginForm />
-          </div>
-        </section>
-      </div>
-    </>
+        <div className="login-auth-inner">
+          <LoginForm />
+        </div>
+      </section>
+    </div>
   );
 }

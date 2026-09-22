@@ -71,6 +71,8 @@ export function mapArticleRowToProduct(
     qty: row.qty_raw?.trim() || null,
     remarks: row.remarks_raw?.trim() || null,
     imageUrl: null,
+    collageImages: [],
+    photoCount: 0,
     images: [],
     isDemo: false,
     visualIndex,

@@ -30,6 +30,10 @@ type CatalogueSearchToolbarProps = {
   dataSource: "live" | "demo";
   lockedSeason?: SeasonSlug;
   lockedCategory?: CategorySlug;
+  /** Autocomplete navigation base (defaults to basePath). */
+  searchNavigatePath?: string;
+  /** Admin/employee search page — chips render in results header. */
+  workspaceLayout?: boolean;
 };
 
 type DraftParams = CatalogueSearchParams;
@@ -209,7 +213,10 @@ export function CatalogueSearchToolbar({
   dataSource,
   lockedSeason,
   lockedCategory,
+  searchNavigatePath,
+  workspaceLayout = false,
 }: CatalogueSearchToolbarProps) {
+  const suggestBase = searchNavigatePath ?? basePath;
   const router = useRouter();
   const baseId = useId();
   const [draft, setDraft] = useState<DraftParams>(initialParams);
@@ -273,7 +280,12 @@ export function CatalogueSearchToolbar({
   const showFilters = true;
 
   return (
-    <div className="catalogue-search-toolbar">
+    <div
+      className={cn(
+        "catalogue-search-toolbar",
+        workspaceLayout && "catalogue-search-toolbar--workspace"
+      )}
+    >
       <form className="catalogue-search-form" onSubmit={onSearchSubmit}>
         <CatalogueSearchInput
           value={draft.q}
@@ -281,6 +293,8 @@ export function CatalogueSearchToolbar({
           inputClassName="catalogue-search-toolbar-input"
           season={lockedSeason}
           category={lockedCategory}
+          preferSearchNavigation
+          searchNavigatePath={suggestBase}
         />
         <button type="submit" className="mjms-btn mjms-btn-primary mjms-btn-md catalogue-search-submit">
           Search
@@ -329,7 +343,7 @@ export function CatalogueSearchToolbar({
         </div>
       )}
 
-      {showFilters && (
+      {showFilters && !workspaceLayout && (
         <ActiveFilterChips
           params={initialParams}
           basePath={basePath}

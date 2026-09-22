@@ -1,13 +1,24 @@
-import { CATEGORIES, type SeasonDefinition } from "@/lib/collections/config";
+import {
+  CATEGORIES,
+  categoryPath,
+  type CategorySlug,
+  type SeasonDefinition,
+  type SeasonSlug,
+} from "@/lib/collections/config";
 import type { CategorySummary } from "@/lib/catalogue/types";
 import { CategoryFolderCard } from "./CategoryFolderCard";
 
 type CategoryFolderGridProps = {
   season: SeasonDefinition;
   summaries: CategorySummary[];
+  getCategoryHref?: (season: SeasonSlug, category: CategorySlug) => string;
 };
 
-export function CategoryFolderGrid({ season, summaries }: CategoryFolderGridProps) {
+export function CategoryFolderGrid({
+  season,
+  summaries,
+  getCategoryHref = categoryPath,
+}: CategoryFolderGridProps) {
   const bySlug = new Map(summaries.map((s) => [s.categorySlug, s]));
 
   return (
@@ -28,6 +39,7 @@ export function CategoryFolderGrid({ season, summaries }: CategoryFolderGridProp
             season={season}
             category={category}
             summary={summary}
+            href={getCategoryHref(season.slug, category.slug)}
           />
         );
       })}

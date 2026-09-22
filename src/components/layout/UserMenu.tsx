@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { createClient } from "@/lib/supabase/client";
+import { roleDisplayLabel } from "@/lib/auth/roles";
 import type { UserProfile } from "@/lib/projects/types";
 import { cn } from "@/lib/utils";
 import { ChevronDown, LogOut } from "lucide-react";
@@ -66,8 +67,8 @@ export function UserMenu({ user, triggerClassName }: UserMenuProps) {
           <div className="border-b border-border/80 px-3.5 py-3">
             <p className="truncate text-sm font-medium">{user.fullName || "User"}</p>
             <p className="truncate text-xs text-muted-foreground">{user.email}</p>
-            <p className="mt-1 text-xs capitalize text-muted-foreground">
-              {user.role}
+            <p className="mt-1 text-xs text-muted-foreground">
+              {roleDisplayLabel(user.role)}
               {isDemo ? " · demo" : ""}
             </p>
           </div>

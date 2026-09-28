@@ -1,0 +1,103 @@
+/**
+ * Wash + geometry portal host (#mjms-ambient-fashion-root).
+ * Fashion image marquee: FashionImageMarqueeLayer → #fashion-image-marquee-root on body.
+ */
+#mjms-ambient-fashion-root {
+  position: fixed !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  will-change: auto !important;
+  contain: none !important;
+}
+
+.mjms-fixed-brand-backdrop {
+  position: fixed !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  contain: none !important;
+}
+
+.mjms-backdrop-layer {
+  position: fixed !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  contain: none !important;
+}
+
+.mjms-backdrop-layer--wash {
+  z-index: 0;
+}
+
+.mjms-backdrop-layer--wash .home-page-atmosphere {
+  position: absolute;
+  inset: 0;
+  transform: none !important;
+}
+
+.mjms-backdrop-layer--geometry {
+  z-index: 1;
+}
+
+.mjms-backdrop-layer--geometry .brand-geometry-homepage-wrap,
+.mjms-backdrop-layer--geometry-auth .brand-geometry-login-wrap {
+  position: fixed !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.72;
+  transform: none !important;
+  pointer-events: none;
+}
+
+.mjms-backdrop-layer--geometry-auth .brand-geometry-login-wrap {
+  opacity: 0.85;
+}
+
+.mjms-public-brand > main,
+.mjms-public-brand > .collection-main,
+.mjms-public-brand > .home-marquee,
+.mjms-public-brand > .home-fashion-marquee,
+.mjms-public-brand > .home-footer,
+.mjms-public-brand > .login-shell,
+.mjms-public-brand > .auth-welcome {
+  position: relative;
+  z-index: 2;
+}
+
+.mjms-public-brand > .home-header {
+  z-index: 50;
+}
+
+.mjms-workspace-shell .mjms-workspace-aside,
+.mjms-workspace-shell .mjms-workspace-main {
+  position: relative;
+  z-index: 3;
+}
+
+.collection-main,
+.login-shell,
+.auth-welcome {
+  position: relative;
+  z-index: 2;
+}

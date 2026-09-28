@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MJMS fashion asset — flip-flop sandal (multicolor) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true">
+  <path fill="#6FB0B0" d="M48 340h416c11 0 20 9 20 20v12c0 11-9 20-20 20H48c-11 0-20-9-20-20v-12c0-11 9-20 20-20z"/>
+  <path fill="#1F5AA6" d="M64 340c0-24 40-44 88-44h208c48 0 88 20 88 44H64z"/>
+  <path fill="#E4667F" d="M160 200v140h32V220c0-11 9-20 20-20s20 9 20 20v120h32V196c0-30-24-54-54-54s-54 24-54 54z"/>
+  <path fill="#E4667F" d="M320 184v156h32V204c0-11 9-20 20-20s20 9 20 20v136h32V180c0-30-24-54-54-54s-54 24-54 54z"/>
+  <path fill="none" stroke="#FDCC00" stroke-width="22" stroke-linecap="round" d="M176 196c56-36 104-36 160 0"/>
+  <path fill="#FFE100" d="M96 356h320v8H96v-8z" opacity="0.5"/>
+</svg>

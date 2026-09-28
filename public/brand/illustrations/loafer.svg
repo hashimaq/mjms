@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MJMS fashion asset — loafer (multicolor) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true">
+  <path fill="#5F4F92" d="M56 320c6-58 52-104 112-112 18-2 36 0 54 6 42 12 74 44 86 86 2 8 4 16 4 20H56z"/>
+  <path fill="#6FB0B0" d="M456 320c-10-46-44-82-88-96-14-4-30-6-46-4-48 8-86 42-96 88 0 4 0 8 0 12h230c0-4 0 0 0 0z"/>
+  <path fill="#1F5AA6" d="M48 348h416c11 0 20 9 20 20v24c0 11-9 20-20 20H48c-11 0-20-9-20-20v-24c0-11 9-20 20-20z"/>
+  <ellipse cx="220" cy="302" rx="52" ry="30" fill="#E3B233" opacity="0.85"/>
+  <path fill="#CC2027" d="M196 288h48v28h-48z" opacity="0.75"/>
+  <path fill="none" stroke="#FFFFFF" stroke-width="8" d="M208 302h32" opacity="0.4"/>
+</svg>

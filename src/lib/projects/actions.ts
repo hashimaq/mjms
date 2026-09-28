@@ -113,8 +113,10 @@ async function insertProjectPhoto(
     throw new Error(`${file.name} is not a supported image.`);
   }
 
-  const ext = imageExtension(file.type);
-  const storagePath = `products/${articleId}/${String(imageOrder).padStart(2, "0")}${ext}`;
+  const { formatProductImageStoragePath } = await import(
+    "@/lib/catalogue/product-image-storage-path"
+  );
+  const storagePath = formatProductImageStoragePath(articleId, imageOrder, file.type);
   const buffer = Buffer.from(await file.arrayBuffer());
 
   const { error: uploadError } = await supabase.storage

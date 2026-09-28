@@ -1,7 +1,9 @@
-/** Restrained hero decoration — scoped to the catalog hero safe zone only. */
+import { FashionSketch } from "@/components/brand/fashion-silhouettes";
+
 export function CatalogHeroDecor() {
   return (
     <div className="catalog-hero-deco" aria-hidden>
+      <FashionSketch id="stiletto" className="catalog-hero-deco-sketch" />
       <svg
         className="catalog-hero-deco-svg catalog-hero-deco-svg--desktop"
         viewBox="0 0 280 200"

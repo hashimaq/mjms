@@ -1,6 +1,7 @@
 "use client";
 
 import { BrandGeometry } from "@/components/brand/BrandGeometry";
+import { MjmsAmbientBackgroundLoader } from "@/components/brand/ambient/MjmsAmbientBackgroundLoader";
 import { MjmsLogo } from "@/components/brand/MjmsLogo";
 import { UserMenu } from "@/components/layout/UserMenu";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -49,7 +50,8 @@ export function WorkspaceShell({
   }
 
   return (
-    <div className={cn("mjms-workspace", `mjms-workspace--${variant}`)}>
+    <div className={cn("mjms-workspace mjms-workspace-shell mjms-public-brand", `mjms-workspace--${variant}`)}>
+      <MjmsAmbientBackgroundLoader variant="workspace" />
       <aside
         className={cn("mjms-workspace-aside", mobileOpen && "mjms-workspace-aside--open")}
         aria-label={`${variant === "admin" ? "Admin" : "Employee"} navigation`}

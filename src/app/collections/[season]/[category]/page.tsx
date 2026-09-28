@@ -85,7 +85,7 @@ export default async function CategoryCollectionPage({ params, searchParams }: P
 
     return (
       <article className="collection-page collection-page--category collection-page--catalogue">
-        <CollectionPageDecor />
+        <CollectionPageDecor season={season.slug} />
         <div className="collection-page-inner home-container">
           {!result.ok ? (
             <>
@@ -157,7 +157,7 @@ export default async function CategoryCollectionPage({ params, searchParams }: P
 
   return (
     <article className="collection-page collection-page--category collection-page--catalogue">
-      <CollectionPageDecor />
+      <CollectionPageDecor season={season.slug} />
       <div className="collection-page-inner home-container">
         {!result.ok ? (
           <>

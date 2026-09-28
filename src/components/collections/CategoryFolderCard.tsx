@@ -1,3 +1,4 @@
+import { CategorySilhouette } from "@/components/brand/fashion-silhouettes";
 import type { CategoryDefinition, SeasonDefinition } from "@/lib/collections/config";
 import { categoryPath } from "@/lib/collections/config";
 import type { CategorySummary } from "@/lib/catalogue/types";
@@ -65,7 +66,9 @@ export function CategoryFolderCard({
         `category-folder-card--kind-${category.slug}`
       )}
     >
-      <span className="category-folder-geometry" aria-hidden />
+      <span className="category-folder-geometry" aria-hidden>
+        <CategorySilhouette categorySlug={category.slug} className="category-folder-silhouette" />
+      </span>
       <div className="category-folder-tab" aria-hidden>
         <span className="category-folder-tab-season">{season.shortTitle}</span>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { BrandGeometry } from "@/components/brand/BrandGeometry";
+import { LoginFashionDecor } from "@/components/brand/fashion-silhouettes";
 import { MjmsLogo } from "@/components/brand/MjmsLogo";
 import { Button } from "@/components/ui/Button";
 import { welcomeHeading } from "@/lib/auth/display-name";
@@ -40,6 +41,7 @@ export function WelcomeExperience({ fullName, destination }: WelcomeExperiencePr
 
   return (
     <div className={`auth-welcome auth-welcome--${phase}`}>
+      <LoginFashionDecor />
       <BrandGeometry variant="login" />
       <div className="auth-welcome-inner">
         <MjmsLogo priority className="auth-welcome-logo" />

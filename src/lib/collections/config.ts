@@ -126,4 +126,25 @@ export function getCategorySourceSheet(
 ): string {
   return getCategory(category).sourceSheetForSeason(season);
 }
+
+/** Resolve category slug from articles.source_sheet (add new categories in CATEGORIES). */
+export function matchCategorySlugFromSourceSheet(sourceSheet: string): CategorySlug | null {
+  for (const season of SEASON_SLUGS) {
+    for (const cat of CATEGORIES) {
+      if (sourceSheet === cat.sourceSheetForSeason(season)) {
+        return cat.slug;
+      }
+    }
+  }
+  return null;
+}
+
+/** Human label for a source_sheet when slug is unknown (e.g. before nav entry is added). */
+export function categoryLabelFromSourceSheet(sourceSheet: string): string {
+  const slug = matchCategorySlugFromSourceSheet(sourceSheet);
+  if (slug) return getCategory(slug).label;
+  if (sourceSheet.startsWith("WINTER ")) return sourceSheet.slice("WINTER ".length);
+  if (sourceSheet.startsWith("SUMMER ")) return sourceSheet.slice("SUMMER ".length);
+  return sourceSheet;
+}
 

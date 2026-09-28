@@ -1,9 +1,8 @@
-import { BrandGeometry } from "@/components/brand/BrandGeometry";
-
 import Link from "next/link";
 
-import { HomeHeroBackdrop, HomePageAtmosphere } from "./HomeBackdrop";
-
+import { MjmsBrandAtmosphere } from "@/components/brand/MjmsBrandAtmosphere";
+import { HomeHeroBackdrop } from "./HomeBackdrop";
+import { HomeFashionMarquee } from "./HomeFashionMarquee";
 import { HomeMarquee } from "./HomeMarquee";
 
 import { HomeCatalogueSearch } from "./HomeCatalogueSearch";
@@ -15,8 +14,8 @@ export function HomePageContent() {
 
   return (
 
-    <div className="home-page">
-      <HomePageAtmosphere />
+    <div className="home-page mjms-public-brand">
+      <MjmsBrandAtmosphere tone="home" />
       <PublicSiteHeader />
 
 
@@ -26,8 +25,6 @@ export function HomePageContent() {
         <section className="home-hero-viewport" aria-labelledby="home-hero-title">
 
           <HomeHeroBackdrop />
-
-          <BrandGeometry variant="homepage" />
 
           <HomeMarquee variant="hero" />
 
@@ -73,15 +70,19 @@ export function HomePageContent() {
 
                 <p className="home-hero-tagline">
 
-                  Footwear collections, styles, and development records.
+                  Ladies footwear &amp; fashion product development — heels, flats, loafers,
+
+                  bags, and seasonal collections.
 
                 </p>
 
                 <p className="home-hero-lead">
 
-                  A professional catalogue platform for seasonal product discovery and
+                  MJMS develops and documents ladies footwear and fashion products for
 
-                  team-managed development information.
+                  professional catalogue review — not retail shopping, but studio-quality
+
+                  product development showcase.
 
                 </p>
 
@@ -141,6 +142,8 @@ export function HomePageContent() {
 
         <HomeCatalogueSearch />
 
+        <HomeFashionMarquee />
+
         <HomeMarquee variant="strip" />
 
         <section id="collections" className="home-collections" aria-labelledby="collections-heading">
@@ -157,9 +160,9 @@ export function HomePageContent() {
 
               <p className="home-section-desc">
 
-                Browse footwear development by season — structured for product teams and catalogue
+                Explore seasonal ladies footwear and fashion development — heels, flats, PU lines,
 
-                review.
+                and more — organized for product teams and customer catalogue review.
 
               </p>
 
@@ -237,15 +240,17 @@ export function HomePageContent() {
 
             <h2 id="about-heading" className="home-intro-title">
 
-              Built for catalogue clarity
+              Footwear &amp; fashion development, documented beautifully
 
             </h2>
 
             <p className="home-intro-text">
 
-              MJMS Product Development supports collection discovery, product and style browsing,
+              From heel lines to flats, dip moulds to seasonal bags and apparel concepts — MJMS
 
-              organized footwear development records, and employee-managed catalogue information.
+              presents development work as a premium fashion catalogue for staff and customers,
+
+              with fast search and structured product records.
 
             </p>
 

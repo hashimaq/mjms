@@ -1,7 +1,8 @@
 import "server-only";
 
 import type { UserProfile } from "@/lib/projects/types";
-import { imageExtension } from "@/lib/projects/upload-utils";
+import { loadArticleImageOrderMeta } from "@/lib/catalogue/article-image-order-meta";
+import { formatProductImageStoragePath } from "@/lib/catalogue/product-image-storage-path";
 import { runWithConcurrency, UPLOAD_CONCURRENCY } from "@/lib/projects/upload-utils";
 import { createServiceRoleClient } from "@/lib/supabase/admin";
 import type { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
@@ -20,26 +21,6 @@ function isStorageDenied(error: { message?: string } | null): boolean {
   return msg.includes("row-level security") || msg.includes("403") || msg.includes("denied");
 }
 
-async function loadExistingImageMeta(
-  supabase: SupabaseClient,
-  articleId: string
-): Promise<{ maxOrder: number; hasPrimary: boolean }> {
-  const { data, error } = await supabase
-    .from("article_images")
-    .select("image_order, is_primary")
-    .eq("article_id", articleId)
-    .order("image_order", { ascending: false })
-    .limit(50);
-
-  if (error || !data?.length) {
-    return { maxOrder: 0, hasPrimary: false };
-  }
-
-  const maxOrder = Math.max(...data.map((r) => r.image_order as number));
-  const hasPrimary = data.some((r) => r.is_primary);
-  return { maxOrder, hasPrimary };
-}
-
 export function preparePhotoUploads(
   files: File[],
   articleId: string,
@@ -52,10 +33,9 @@ export function preparePhotoUploads(
   for (const file of files) {
     if (!file.type.startsWith("image/") || file.size > 12 * 1024 * 1024) continue;
     order += 1;
-    const ext = imageExtension(file.type);
     prepared.push({
       file,
-      storagePath: `products/${articleId}/${String(order).padStart(2, "0")}${ext}`,
+      storagePath: formatProductImageStoragePath(articleId, order, file.type),
       imageOrder: order,
       isPrimary: !hasPrimary && prepared.length === 0,
     });
@@ -107,7 +87,7 @@ export async function uploadCataloguePhotosOnServer(
     return { ok: true, imageIds: [], warnings: [] };
   }
 
-  const { maxOrder, hasPrimary } = await loadExistingImageMeta(userClient, articleId);
+  const { maxOrder, hasPrimary } = await loadArticleImageOrderMeta(userClient, articleId);
   const prepared = preparePhotoUploads(files, articleId, maxOrder, hasPrimary);
 
   if (prepared.length === 0) {

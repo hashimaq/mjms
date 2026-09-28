@@ -1,4 +1,4 @@
-import { imageExtension } from "@/lib/projects/upload-utils";
+import { formatProductImageStoragePath } from "@/lib/catalogue/product-image-storage-path";
 
 export const MAX_CATALOGUE_PHOTO_BYTES = 12 * 1024 * 1024;
 
@@ -14,6 +14,8 @@ export type PhotoSlotCandidate = {
   name: string;
   size: number;
   mimeType: string;
+  /** Content hash from client — used for per-article duplicate detection. */
+  sha256?: string;
 };
 
 export type PreparedPhotoSlot = {
@@ -24,6 +26,7 @@ export type PreparedPhotoSlot = {
   originalFilename: string;
   mimeType: string;
   fileSize: number;
+  sha256?: string;
 };
 
 export function validateCataloguePhotoFile(file: File): string | null {
@@ -61,15 +64,15 @@ export function preparePhotoSlots(
     const err = validateCataloguePhotoCandidate(candidate);
     if (err) continue;
     order += 1;
-    const ext = imageExtension(candidate.mimeType);
     prepared.push({
       clientId: candidate.clientId,
-      storagePath: `products/${articleId}/${String(order).padStart(2, "0")}${ext}`,
+      storagePath: formatProductImageStoragePath(articleId, order, candidate.mimeType),
       imageOrder: order,
       isPrimary: !hasPrimary && prepared.length === 0,
       originalFilename: candidate.name,
       mimeType: candidate.mimeType,
       fileSize: candidate.size,
+      sha256: candidate.sha256,
     });
   }
 

@@ -1170,9 +1170,11 @@
   /* ── Login layout root + splash ─────────────────────────────────── */
 
   .login-layout-root {
+    position: relative;
+    z-index: 2;
     min-height: 100dvh;
     overflow-x: hidden;
-    background: #f2f2f0;
+    background: transparent;
   }
 
   .login-layout-root--branded {
@@ -1185,6 +1187,7 @@
     position: fixed;
     inset: 0;
     z-index: 0;
+    pointer-events: none;
     pointer-events: none;
     background:
       radial-gradient(ellipse 70% 50% at 15% 20%, rgb(111 176 176 / 0.08), transparent 55%),
@@ -1212,7 +1215,7 @@
   }
 
   .dark .login-layout-root {
-    background: #1a1a1a;
+    background: transparent;
   }
 
   .login-splash {
@@ -2191,7 +2194,7 @@
   .catalog-bg-paper {
     position: absolute;
     inset: 0;
-    background: var(--catalog-page-bg);
+    background: color-mix(in srgb, var(--catalog-page-bg) 88%, transparent);
   }
 
   .catalog-header {
@@ -2817,18 +2820,13 @@
     --home-marquee-clearance: var(--home-space-4);
     min-height: 100dvh;
     overflow-x: clip;
-    background-color: #f2f2f0;
-    background-image:
-      radial-gradient(ellipse 90% 55% at 8% 12%, rgb(95 79 146 / 0.14) 0%, transparent 58%),
-      radial-gradient(ellipse 75% 50% at 92% 8%, rgb(111 176 176 / 0.16) 0%, transparent 55%),
-      radial-gradient(ellipse 70% 45% at 100% 55%, rgb(31 90 166 / 0.1) 0%, transparent 52%),
-      radial-gradient(ellipse 65% 40% at 0% 70%, rgb(227 178 51 / 0.11) 0%, transparent 50%),
-      radial-gradient(ellipse 55% 35% at 78% 88%, rgb(204 32 39 / 0.08) 0%, transparent 48%);
+    background-color: transparent;
+    background-image: none;
     color: #1a1a1a;
   }
 
   .home-page-atmosphere {
-    position: absolute;
+    position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
@@ -2839,8 +2837,13 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 55% 40% at 50% 22%, rgb(255 255 255 / 0.72) 0%, transparent 70%),
-      linear-gradient(180deg, rgb(242 242 240 / 0.15) 0%, rgb(242 242 240 / 0.85) 45%, #f2f2f0 100%);
+      radial-gradient(ellipse 90% 55% at 8% 12%, rgb(95 79 146 / 0.14) 0%, transparent 58%),
+      radial-gradient(ellipse 75% 50% at 92% 8%, rgb(111 176 176 / 0.16) 0%, transparent 55%),
+      radial-gradient(ellipse 70% 45% at 100% 55%, rgb(31 90 166 / 0.1) 0%, transparent 52%),
+      radial-gradient(ellipse 65% 40% at 0% 70%, rgb(227 178 51 / 0.11) 0%, transparent 50%),
+      radial-gradient(ellipse 55% 35% at 78% 88%, rgb(204 32 39 / 0.08) 0%, transparent 48%),
+      radial-gradient(ellipse 55% 40% at 50% 22%, rgb(255 255 255 / 0.55) 0%, transparent 70%),
+      linear-gradient(180deg, rgb(242 242 240 / 0.55) 0%, rgb(242 242 240 / 0.92) 45%, #f2f2f0 100%);
   }
 
   .home-page-atmosphere-svg {
@@ -2866,8 +2869,13 @@
   /* Dark: same MJMS artwork — darker surface wash over identical composition */
   .dark .home-page-atmosphere-wash {
     background:
-      radial-gradient(ellipse 55% 40% at 50% 22%, rgb(26 26 26 / 0.72) 0%, transparent 70%),
-      linear-gradient(180deg, rgb(26 26 26 / 0.35) 0%, rgb(26 26 26 / 0.82) 45%, #1a1a1a 100%);
+      radial-gradient(ellipse 90% 55% at 8% 12%, rgb(95 79 146 / 0.14) 0%, transparent 58%),
+      radial-gradient(ellipse 75% 50% at 92% 8%, rgb(111 176 176 / 0.16) 0%, transparent 55%),
+      radial-gradient(ellipse 70% 45% at 100% 55%, rgb(31 90 166 / 0.1) 0%, transparent 52%),
+      radial-gradient(ellipse 65% 40% at 0% 70%, rgb(227 178 51 / 0.11) 0%, transparent 50%),
+      radial-gradient(ellipse 55% 35% at 78% 88%, rgb(204 32 39 / 0.08) 0%, transparent 48%),
+      radial-gradient(ellipse 55% 40% at 50% 22%, rgb(26 26 26 / 0.65) 0%, transparent 70%),
+      linear-gradient(180deg, rgb(26 26 26 / 0.35) 0%, rgb(26 26 26 / 0.88) 45%, #1a1a1a 100%);
     opacity: 1;
   }
 
@@ -2920,13 +2928,8 @@
   }
 
   .dark .home-page {
-    background-color: #1a1a1a;
-    background-image:
-      radial-gradient(ellipse 90% 55% at 8% 12%, rgb(95 79 146 / 0.14) 0%, transparent 58%),
-      radial-gradient(ellipse 75% 50% at 92% 8%, rgb(111 176 176 / 0.16) 0%, transparent 55%),
-      radial-gradient(ellipse 70% 45% at 100% 55%, rgb(31 90 166 / 0.1) 0%, transparent 52%),
-      radial-gradient(ellipse 65% 40% at 0% 70%, rgb(227 178 51 / 0.11) 0%, transparent 50%),
-      radial-gradient(ellipse 55% 35% at 78% 88%, rgb(204 32 39 / 0.08) 0%, transparent 48%);
+    background-color: transparent;
+    background-image: none;
     color: #f2f0eb;
   }
 
@@ -3125,7 +3128,7 @@
     z-index: 1;
     overflow: hidden;
     pointer-events: none;
-    opacity: 0.72;
+    opacity: 0.34;
     -webkit-mask-image: radial-gradient(
       ellipse 76% 60% at 50% 42%,
       transparent 0,
@@ -6065,6 +6068,566 @@
 
   .catalogue-search-header {
     margin-bottom: var(--home-space-4);
+  }
+
+  .catalogue-assistant {
+    margin-bottom: var(--home-space-4);
+    padding: var(--home-space-4);
+    border-radius: 16px;
+    border: 1px solid rgb(111 176 176 / 0.28);
+    background: linear-gradient(
+      145deg,
+      rgb(255 255 255 / 0.96) 0%,
+      rgb(242 242 240 / 0.55) 100%
+    );
+    box-shadow: 0 8px 24px rgb(26 26 26 / 0.04);
+    min-width: 0;
+  }
+
+  .dark .catalogue-assistant {
+    border-color: rgb(111 176 176 / 0.22);
+    background: linear-gradient(
+      145deg,
+      rgb(30 30 30 / 0.92) 0%,
+      rgb(26 26 26 / 0.78) 100%
+    );
+    box-shadow: 0 8px 28px rgb(0 0 0 / 0.35);
+  }
+
+  .catalogue-assistant--embedded {
+    margin-bottom: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .dark .catalogue-assistant--embedded {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .catalogue-assistant-fab {
+    position: fixed;
+    z-index: 45;
+    right: max(1rem, env(safe-area-inset-right, 0px));
+    bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: min(calc(100vw - 2rem), 16rem);
+    padding: 0.625rem 1rem 0.625rem 0.875rem;
+    border: 1px solid rgb(111 176 176 / 0.45);
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgb(26 26 26) 0%, rgb(45 40 58) 100%);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    box-shadow:
+      0 10px 28px rgb(26 26 26 / 0.22),
+      0 0 0 1px rgb(111 176 176 / 0.15);
+    transition:
+      transform 140ms ease,
+      box-shadow 140ms ease,
+      border-color 140ms ease;
+  }
+
+  .catalogue-assistant-fab:hover {
+    transform: translateY(-1px);
+    border-color: rgb(111 176 176 / 0.65);
+    box-shadow:
+      0 14px 32px rgb(26 26 26 / 0.28),
+      0 0 0 1px rgb(227 178 51 / 0.25);
+  }
+
+  .catalogue-assistant-fab:focus-visible {
+    outline: 2px solid rgb(111 176 176 / 0.75);
+    outline-offset: 3px;
+  }
+
+  .dark .catalogue-assistant-fab {
+    background: linear-gradient(135deg, rgb(36 36 36) 0%, rgb(52 44 68) 100%);
+    box-shadow:
+      0 10px 32px rgb(0 0 0 / 0.45),
+      0 0 0 1px rgb(111 176 176 / 0.2);
+  }
+
+  .catalogue-assistant-fab-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+    color: rgb(111 176 176);
+    flex-shrink: 0;
+  }
+
+  .catalogue-assistant-fab-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .catalogue-assistant-modal-root {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: max(1rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px))
+      max(1rem, env(safe-area-inset-bottom, 0px)) max(1rem, env(safe-area-inset-left, 0px));
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .catalogue-assistant-modal-root[data-open="true"] {
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  .catalogue-assistant-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: rgb(26 26 26 / 0.42);
+    cursor: pointer;
+  }
+
+  .dark .catalogue-assistant-modal-backdrop {
+    background: rgb(0 0 0 / 0.55);
+  }
+
+  .catalogue-assistant-modal {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    width: min(100%, 32.5rem);
+    max-height: min(85dvh, 40rem);
+    min-width: 0;
+    border-radius: 16px;
+    border: 1px solid rgb(111 176 176 / 0.28);
+    background: rgb(255 255 255 / 0.98);
+    box-shadow:
+      0 24px 48px rgb(26 26 26 / 0.18),
+      0 0 0 1px rgb(111 176 176 / 0.1);
+    overflow: hidden;
+  }
+
+  .dark .catalogue-assistant-modal {
+    border-color: rgb(111 176 176 / 0.22);
+    background: rgb(24 24 24 / 0.98);
+    box-shadow:
+      0 24px 56px rgb(0 0 0 / 0.5),
+      0 0 0 1px rgb(111 176 176 / 0.12);
+  }
+
+  .catalogue-assistant-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--home-space-2);
+    flex-shrink: 0;
+    padding: var(--home-space-3) var(--home-space-3) var(--home-space-2);
+    border-bottom: 1px solid rgb(26 26 26 / 0.08);
+  }
+
+  .dark .catalogue-assistant-modal-header {
+    border-bottom-color: rgb(255 255 255 / 0.08);
+  }
+
+  .catalogue-assistant-modal-header-text {
+    min-width: 0;
+  }
+
+  .catalogue-assistant-modal-title {
+    margin: 0 0 0.25rem;
+    font-size: 1.125rem;
+    font-weight: 650;
+    line-height: 1.25;
+    color: var(--mjms-ink, #1a1a1a);
+  }
+
+  .dark .catalogue-assistant-modal-title {
+    color: rgb(242 242 240);
+  }
+
+  .catalogue-assistant-modal-subtitle {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: rgb(26 26 26 / 0.62);
+  }
+
+  .dark .catalogue-assistant-modal-subtitle {
+    color: rgb(242 242 240 / 0.62);
+  }
+
+  .catalogue-assistant-modal-close {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: rgb(26 26 26 / 0.65);
+    cursor: pointer;
+  }
+
+  .catalogue-assistant-modal-close svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .catalogue-assistant-modal-close:hover {
+    background: rgb(111 176 176 / 0.12);
+    color: rgb(26 26 26 / 0.9);
+  }
+
+  .catalogue-assistant-modal-close:focus-visible {
+    outline: 2px solid rgb(111 176 176 / 0.65);
+    outline-offset: 2px;
+  }
+
+  .dark .catalogue-assistant-modal-close {
+    color: rgb(242 242 240 / 0.7);
+  }
+
+  .dark .catalogue-assistant-modal-close:hover {
+    background: rgb(111 176 176 / 0.16);
+    color: rgb(242 242 240);
+  }
+
+  .catalogue-assistant-modal-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0 var(--home-space-3) var(--home-space-3);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .catalogue-assistant-modal-body .catalogue-assistant-form {
+    margin-bottom: var(--home-space-2);
+  }
+
+  .catalogue-assistant-modal-body .catalogue-product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
+  }
+
+  @media (max-width: 480px) {
+    .catalogue-assistant-modal {
+      width: 100%;
+      max-height: min(92dvh, 40rem);
+      border-radius: 14px;
+    }
+
+    .catalogue-assistant-fab {
+      padding: 0.5625rem 0.875rem;
+      font-size: 0.8125rem;
+    }
+  }
+
+  .catalogue-assistant-head {
+    margin-bottom: var(--home-space-3);
+  }
+
+  .catalogue-assistant-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin: 0 0 var(--home-space-1);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mjms-teal, #6fb0b0);
+  }
+
+  .catalogue-assistant-eyebrow-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .catalogue-assistant-title {
+    margin: 0 0 var(--home-space-1);
+    font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+    font-weight: 650;
+    line-height: 1.25;
+    color: var(--mjms-ink, #1a1a1a);
+  }
+
+  .dark .catalogue-assistant-title {
+    color: rgb(242 242 240);
+  }
+
+  .catalogue-assistant-lead {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: rgb(26 26 26 / 0.72);
+    max-width: 42rem;
+  }
+
+  .dark .catalogue-assistant-lead {
+    color: rgb(242 242 240 / 0.72);
+  }
+
+  .catalogue-assistant-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--home-space-2);
+    align-items: stretch;
+    margin-bottom: var(--home-space-3);
+    min-width: 0;
+  }
+
+  .catalogue-assistant-input {
+    flex: 1 1 12rem;
+    min-width: 0;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    line-height: 1.4;
+    border-radius: 10px;
+    border: 1px solid rgb(26 26 26 / 0.12);
+    background: rgb(255 255 255 / 0.95);
+    color: var(--mjms-ink, #1a1a1a);
+  }
+
+  .catalogue-assistant-input:focus-visible {
+    outline: 2px solid rgb(111 176 176 / 0.65);
+    outline-offset: 2px;
+    border-color: rgb(111 176 176 / 0.45);
+  }
+
+  .dark .catalogue-assistant-input {
+    border-color: rgb(255 255 255 / 0.14);
+    background: rgb(20 20 20 / 0.85);
+    color: rgb(242 242 240);
+  }
+
+  .catalogue-assistant-submit {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+  }
+
+  .catalogue-assistant-submit-icon {
+    width: 1rem;
+    height: 1rem;
+    animation: catalogue-assistant-spin 0.85s linear infinite;
+  }
+
+  @keyframes catalogue-assistant-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .catalogue-assistant-examples {
+    min-width: 0;
+  }
+
+  .catalogue-assistant-examples-label {
+    margin: 0 0 var(--home-space-1);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgb(26 26 26 / 0.55);
+  }
+
+  .dark .catalogue-assistant-examples-label {
+    color: rgb(242 242 240 / 0.55);
+  }
+
+  .catalogue-assistant-examples-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--home-space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .catalogue-assistant-example {
+    max-width: 100%;
+    padding: 0.4375rem 0.75rem;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    text-align: left;
+    border-radius: 999px;
+    border: 1px solid rgb(95 79 146 / 0.22);
+    background: rgb(255 255 255 / 0.7);
+    color: rgb(26 26 26 / 0.85);
+    cursor: pointer;
+    transition:
+      background 140ms ease,
+      border-color 140ms ease;
+  }
+
+  .catalogue-assistant-example:hover:not(:disabled) {
+    border-color: rgb(111 176 176 / 0.45);
+    background: rgb(111 176 176 / 0.1);
+  }
+
+  .catalogue-assistant-example:focus-visible {
+    outline: 2px solid rgb(111 176 176 / 0.65);
+    outline-offset: 2px;
+  }
+
+  .catalogue-assistant-example:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .dark .catalogue-assistant-example {
+    border-color: rgb(111 176 176 / 0.2);
+    background: rgb(255 255 255 / 0.06);
+    color: rgb(242 242 240 / 0.88);
+  }
+
+  .catalogue-assistant-alert {
+    margin-top: var(--home-space-3);
+    padding: var(--home-space-2) var(--home-space-3);
+    border-radius: 10px;
+    border: 1px solid rgb(204 32 39 / 0.25);
+    background: rgb(204 32 39 / 0.06);
+    color: rgb(120 20 24);
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+
+  .dark .catalogue-assistant-alert {
+    border-color: rgb(204 32 39 / 0.35);
+    background: rgb(204 32 39 / 0.12);
+    color: rgb(255 210 210);
+  }
+
+  .catalogue-assistant-results {
+    margin-top: var(--home-space-4);
+    min-width: 0;
+  }
+
+  .catalogue-assistant-message {
+    margin: 0 0 var(--home-space-3);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: rgb(26 26 26 / 0.88);
+    word-break: break-word;
+  }
+
+  .dark .catalogue-assistant-message {
+    color: rgb(242 242 240 / 0.88);
+  }
+
+  .catalogue-assistant-interpreted {
+    margin: 0 0 var(--home-space-2);
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: rgb(26 26 26 / 0.82);
+    word-break: break-word;
+  }
+
+  .dark .catalogue-assistant-interpreted {
+    color: rgb(242 242 240 / 0.82);
+  }
+
+  .catalogue-assistant-interpreted-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgb(26 26 26 / 0.5);
+  }
+
+  .dark .catalogue-assistant-interpreted-label {
+    color: rgb(242 242 240 / 0.5);
+  }
+
+  .catalogue-assistant-facets {
+    margin: 0 0 var(--home-space-3);
+  }
+
+  .catalogue-assistant-facets-list {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--home-space-2);
+  }
+
+  .catalogue-assistant-facets-row {
+    margin: 0;
+  }
+
+  .catalogue-assistant-facets-term {
+    margin: 0 0 0.25rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgb(26 26 26 / 0.5);
+  }
+
+  .dark .catalogue-assistant-facets-term {
+    color: rgb(242 242 240 / 0.5);
+  }
+
+  .catalogue-assistant-facets-def {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: rgb(26 26 26 / 0.88);
+    word-break: break-word;
+  }
+
+  .dark .catalogue-assistant-facets-def {
+    color: rgb(242 242 240 / 0.88);
+  }
+
+  .catalogue-search-divider {
+    display: flex;
+    align-items: center;
+    gap: var(--home-space-2);
+    margin: 0 0 var(--home-space-4);
+    min-width: 0;
+  }
+
+  .catalogue-search-divider::before,
+  .catalogue-search-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgb(26 26 26 / 0.1);
+  }
+
+  .dark .catalogue-search-divider::before,
+  .dark .catalogue-search-divider::after {
+    background: rgb(255 255 255 / 0.1);
+  }
+
+  .catalogue-search-divider-label {
+    flex: 0 1 auto;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgb(26 26 26 / 0.45);
+    text-align: center;
+  }
+
+  .dark .catalogue-search-divider-label {
+    color: rgb(242 242 240 / 0.45);
   }
 
   .catalogue-search-toolbar {

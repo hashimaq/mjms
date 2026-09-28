@@ -1,4 +1,4 @@
-import { BrandGeometry } from "@/components/brand/BrandGeometry";
+import { BrandedStatePanel } from "@/components/brand/BrandedStatePanel";
 
 type CatalogueEmptyStateProps = {
   seasonTitle: string;
@@ -7,9 +7,7 @@ type CatalogueEmptyStateProps = {
 
 export function CatalogueEmptyState({ seasonTitle, categoryLabel }: CatalogueEmptyStateProps) {
   return (
-    <div className="collection-empty-products catalogue-empty-state mjms-category-empty">
-      <BrandGeometry variant="empty" />
-      <h2 className="collection-empty-title">No projects found</h2>
+    <BrandedStatePanel title="No projects found" sketch="sandal" className="catalogue-empty-state">
       <p className="collection-empty-text">
         There are currently no development projects in{" "}
         <strong>
@@ -17,7 +15,6 @@ export function CatalogueEmptyState({ seasonTitle, categoryLabel }: CatalogueEmp
         </strong>
         .
       </p>
-    </div>
+    </BrandedStatePanel>
   );
 }
-

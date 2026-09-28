@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MJMS fashion asset  evening clutch (multicolor) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true">
+  <path fill="#F8B21E" d="M156 200h200c22 0 40 18 40 40v192c0 22-18 40-40 40H156c-22 0-40-18-40-40V240c0-22 18-40 40-40z"/>
+  <path fill="#F07067" d="M196 200v-32c0-28 22-50 50-50h20c28 0 50 22 50 50v32H196z"/>
+  <path fill="#211F1E" d="M236 118h40v24h-40v-24z"/>
+  <rect x="176" y="280" width="160" height="16" fill="#FFFFFF" opacity="0.35"/>
+  <rect x="176" y="312" width="160" height="12" fill="#FFFFFF" opacity="0.25"/>
+  <circle cx="256" cy="360" r="14" fill="#5F4F92"/>
+</svg>

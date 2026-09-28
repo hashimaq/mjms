@@ -3,6 +3,7 @@
 import { appendActivityLogBestEffort } from "@/lib/catalogue/activity-log-server";
 import { createArticleOnServer } from "@/lib/catalogue/create-article-server";
 import { revalidateAfterCatalogueMutation } from "@/lib/catalogue/revalidate-catalogue";
+import { loadArticleImageOrderMeta } from "@/lib/catalogue/article-image-order-meta";
 import {
   type PhotoSlotCandidate,
   preparePhotoSlots,
@@ -71,26 +72,6 @@ export async function createCatalogueProduct(
   }
 }
 
-async function loadArticleImageOrderMeta(
-  supabase: Awaited<ReturnType<typeof getCatalogueMutationClient>>["supabase"],
-  articleId: string
-): Promise<{ maxOrder: number; hasPrimary: boolean }> {
-  const { data, error } = await supabase
-    .from("article_images")
-    .select("image_order, is_primary")
-    .eq("article_id", articleId)
-    .order("image_order", { ascending: false })
-    .limit(200);
-
-  if (error || !data?.length) {
-    return { maxOrder: 0, hasPrimary: false };
-  }
-
-  const maxOrder = Math.max(...data.map((r) => r.image_order as number));
-  const hasPrimary = data.some((r) => r.is_primary);
-  return { maxOrder, hasPrimary };
-}
-
 /** JSON-only: reserve storage paths + orders before browser → Storage upload. */
 export async function allocateCataloguePhotoUploadSlots(
   articleId: string,
@@ -106,6 +87,7 @@ export async function allocateCataloguePhotoUploadSlots(
         originalFilename: string;
         mimeType: string;
         fileSize: number;
+        sha256?: string;
       }>;
     }
   | { ok: false; message: string }
@@ -157,6 +139,7 @@ export type RegisterCataloguePhotoPayload = {
   fileSize: number;
   imageOrder: number;
   isPrimary: boolean;
+  sha256?: string;
 };
 
 /** JSON-only: batch insert metadata after successful Storage uploads. */
@@ -177,7 +160,25 @@ export async function registerCataloguePhotoUploads(
       return { ok: true, imageIdsByClientId: {} };
     }
 
-    const insertRows = uploads.map((u) => ({
+    const withHash = uploads.filter((u) => u.sha256?.trim());
+    const existingByHash = new Map<string, string>();
+    if (withHash.length > 0) {
+      const hashes = [...new Set(withHash.map((u) => u.sha256!.trim()))];
+      const { data: existing } = await supabase
+        .from("article_images")
+        .select("id, sha256")
+        .eq("article_id", articleId)
+        .in("sha256", hashes);
+      for (const row of existing ?? []) {
+        if (row.sha256) existingByHash.set(row.sha256 as string, row.id as string);
+      }
+    }
+
+    const toInsert = uploads.filter(
+      (u) => !u.sha256?.trim() || !existingByHash.has(u.sha256.trim())
+    );
+
+    const insertRows = toInsert.map((u) => ({
       article_id: articleId,
       storage_path: u.storagePath,
       original_filename: u.originalFilename,
@@ -185,6 +186,7 @@ export async function registerCataloguePhotoUploads(
       file_size: u.fileSize,
       image_order: u.imageOrder,
       is_primary: u.isPrimary,
+      sha256: u.sha256?.trim() || null,
       verification_status: "VERIFIED" as const,
       manifest_confidence: "HIGH" as const,
     }));
@@ -192,9 +194,14 @@ export async function registerCataloguePhotoUploads(
     const tryInsert = async (client: typeof supabase) =>
       client.from("article_images").insert(insertRows).select("id, storage_path");
 
-    let { data, error } = await tryInsert(supabase);
+    let data: { id: string; storage_path: string }[] | null = [];
+    let error: { code?: string; message?: string } | null = null;
 
-    if (error?.code === "42501") {
+    if (insertRows.length > 0) {
+      ({ data, error } = await tryInsert(supabase));
+    }
+
+    if (error?.code === "42501" && insertRows.length > 0) {
       try {
         const { createServiceRoleClient } = await import("@/lib/supabase/admin");
         const service = createServiceRoleClient();
@@ -204,14 +211,19 @@ export async function registerCataloguePhotoUploads(
       }
     }
 
-    if (error || !data?.length) {
+    if (insertRows.length > 0 && (error || !data?.length)) {
       console.error("[registerCataloguePhotoUploads]", error);
       return { ok: false, message: "Photos uploaded but gallery records could not be saved." };
     }
 
     const pathToClientId = new Map(uploads.map((u) => [u.storagePath, u.clientId]));
     const imageIdsByClientId: Record<string, string> = {};
-    for (const row of data) {
+    for (const u of uploads) {
+      if (u.sha256?.trim() && existingByHash.has(u.sha256.trim())) {
+        imageIdsByClientId[u.clientId] = existingByHash.get(u.sha256.trim())!;
+      }
+    }
+    for (const row of data ?? []) {
       const clientId = pathToClientId.get(row.storage_path as string);
       if (clientId) {
         imageIdsByClientId[clientId] = row.id as string;

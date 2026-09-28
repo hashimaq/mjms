@@ -1,10 +1,12 @@
 import { BrandGeometry } from "@/components/brand/BrandGeometry";
+import { LoginFashionDecor } from "@/components/brand/fashion-silhouettes";
 import { MjmsLogo } from "@/components/brand/MjmsLogo";
 
 /** Brand zone — hero logo + heading as one centered unit, full-zone geometry behind. */
 export function LoginBrandPanel() {
   return (
     <aside className="login-brand">
+      <LoginFashionDecor />
       <BrandGeometry variant="login" />
       <div className="login-brand-content">
         <div className="login-brand-hero">
@@ -13,8 +15,8 @@ export function LoginBrandPanel() {
             MJMS Product Development
           </h1>
           <p className="login-brand-tagline">
-            Internal product development platform — collections, catalogue, and team
-            activity in one workspace.
+            Ladies footwear &amp; fashion product development — secure access to MJMS
+            collections, catalogue, and team workspace.
           </p>
         </div>
       </div>

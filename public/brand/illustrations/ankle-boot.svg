@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MJMS fashion asset — ankle boot (multicolor, derived palette from SVG Repo heel set) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true">
+  <path fill="#C03A3A" d="M184 96h144c16 0 28 12 28 28v224c0 16-12 28-28 28H184c-16 0-28-12-28-28V124c0-16 12-28 28-28z"/>
+  <path fill="#FF8269" d="M168 120h176v40H168v-40zm0 56h176v24H168v-24zm0 48h176v24H168v-24z" opacity="0.45"/>
+  <path fill="#FFAB97" d="M152 348h208c24 0 44 20 44 44v24c0 11-9 20-20 20H128c-11 0-20-9-20-20v-24c0-24 20-44 44-44z"/>
+  <path fill="#FFFFFF" d="M152 368h208v20H152v-20z" opacity="0.25"/>
+  <path fill="#211F1E" d="M184 348h144v12H184v-12z"/>
+</svg>

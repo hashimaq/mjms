@@ -5,6 +5,7 @@ import {
   registerCataloguePhotoUploads,
 } from "@/lib/catalogue/actions";
 import type { PhotoSlotCandidate } from "@/lib/catalogue/photo-upload-slots";
+import { sha256HexFromFile } from "@/lib/catalogue/photo-content-hash";
 import {
   fileToSlotCandidate,
   validateCataloguePhotoFile,
@@ -77,8 +78,16 @@ export async function uploadCataloguePhotosViaStorage(
 
   notify();
 
-  const candidates: PhotoSlotCandidate[] = uploadItems.map(({ clientId, file }) =>
-    fileToSlotCandidate(file, clientId)
+  const candidates: PhotoSlotCandidate[] = await Promise.all(
+    uploadItems.map(async ({ clientId, file }) => {
+      const base = fileToSlotCandidate(file, clientId);
+      try {
+        const sha256 = await sha256HexFromFile(file);
+        return { ...base, sha256 };
+      } catch {
+        return base;
+      }
+    })
   );
 
   const allocated = await allocateCataloguePhotoUploadSlots(articleId, candidates);
@@ -151,6 +160,7 @@ export async function uploadCataloguePhotosViaStorage(
       fileSize: s.fileSize,
       imageOrder: s.imageOrder,
       isPrimary: s.isPrimary,
+      sha256: s.sha256,
     }))
   );
 

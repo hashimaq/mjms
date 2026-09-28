@@ -1,0 +1,219 @@
+.ambient-fashion-root {
+  --mjms-safe-top: calc(var(--home-header-total, 4.75rem) + 0.35rem);
+  position: fixed !important;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  background: transparent;
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent var(--mjms-safe-top),
+      #000 calc(var(--mjms-safe-top) + 0.75rem)
+    ),
+    radial-gradient(
+      ellipse 62% 48% at 50% 42%,
+      rgba(0, 0, 0, 0.28) 0%,
+      rgba(0, 0, 0, 0.58) 45%,
+      #000 82%
+    );
+  mask-image:
+    linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent var(--mjms-safe-top),
+      #000 calc(var(--mjms-safe-top) + 0.75rem)
+    ),
+    radial-gradient(
+      ellipse 62% 48% at 50% 42%,
+      rgba(0, 0, 0, 0.28) 0%,
+      rgba(0, 0, 0, 0.58) 45%,
+      #000 82%
+    );
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  contain: none !important;
+}
+
+.ambient-float-figure {
+  position: fixed !important;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+/* Horizontal premium marquee — left → right, off-screen loop */
+.ambient-float-figure--marquee {
+  left: 0;
+  top: var(--lane-y, 50vh);
+  animation: ambient-marquee-ltr var(--marquee-duration, 20s) linear infinite;
+  animation-delay: var(--marquee-delay, 0s);
+  transform: translate3d(-44vw, -50%, 0);
+}
+
+.ambient-float-figure--marquee-static {
+  animation: none !important;
+  transform: translate3d(-44vw, -50%, 0);
+}
+
+@keyframes ambient-marquee-ltr {
+  from {
+    transform: translate3d(-44vw, -50%, 0);
+  }
+  to {
+    transform: translate3d(144vw, -50%, 0);
+  }
+}
+
+.ambient-float-figure--tier-xl {
+  width: clamp(18rem, 28vw, 32rem);
+}
+
+.ambient-float-figure--tier-lg {
+  width: clamp(14rem, 22vw, 26rem);
+}
+
+.ambient-float-figure--tier-md {
+  width: clamp(10rem, 16vw, 20rem);
+}
+
+.ambient-float-figure--tier-sm {
+  width: clamp(7.5rem, 12vw, 11.25rem);
+}
+
+.ambient-float-figure--depth-far {
+  opacity: 0.1;
+}
+
+.ambient-float-figure--depth-mid {
+  opacity: 0.16;
+}
+
+.ambient-float-figure--depth-near {
+  opacity: 0.2;
+}
+
+.ambient-float-figure-sprite-wrap {
+  width: 100%;
+  filter: drop-shadow(0 10px 22px rgba(26, 26, 26, 0.07));
+}
+
+.ambient-float-figure-sprite {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: saturate(0.92) contrast(0.98) brightness(1.01);
+}
+
+html.dark .ambient-float-figure--depth-far {
+  opacity: 0.12;
+}
+
+html.dark .ambient-float-figure--depth-mid {
+  opacity: 0.18;
+}
+
+html.dark .ambient-float-figure--depth-near {
+  opacity: 0.22;
+}
+
+html.dark .ambient-float-figure-sprite-wrap {
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.28));
+}
+
+html.dark .ambient-float-figure-sprite {
+  filter: brightness(1.04) saturate(0.95) contrast(0.98);
+}
+
+html.light .ambient-float-figure--depth-far {
+  opacity: 0.08;
+}
+
+html.light .ambient-float-figure--depth-mid {
+  opacity: 0.13;
+}
+
+html.light .ambient-float-figure--depth-near {
+  opacity: 0.17;
+}
+
+@media (max-width: 767px) {
+  .ambient-fashion-root {
+    -webkit-mask-image:
+      linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent var(--mjms-safe-top),
+        #000 calc(var(--mjms-safe-top) + 0.5rem)
+      ),
+      radial-gradient(
+        ellipse 58% 44% at 50% 40%,
+        rgba(0, 0, 0, 0.22) 0%,
+        rgba(0, 0, 0, 0.5) 48%,
+        #000 85%
+      );
+    mask-image:
+      linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent var(--mjms-safe-top),
+        #000 calc(var(--mjms-safe-top) + 0.5rem)
+      ),
+      radial-gradient(
+        ellipse 58% 44% at 50% 40%,
+        rgba(0, 0, 0, 0.22) 0%,
+        rgba(0, 0, 0, 0.5) 48%,
+        #000 85%
+      );
+  }
+
+  .ambient-float-figure--depth-far {
+    opacity: 0.14;
+  }
+
+  .ambient-float-figure--depth-mid {
+    opacity: 0.22;
+  }
+
+  .ambient-float-figure--depth-near {
+    opacity: 0.26;
+  }
+
+  html.light .ambient-float-figure--depth-mid {
+    opacity: 0.2;
+  }
+
+  html.dark .ambient-float-figure--depth-mid {
+    opacity: 0.24;
+  }
+
+  .ambient-float-figure--tier-xl {
+    width: clamp(8.75rem, 44vw, 13.75rem);
+  }
+
+  .ambient-float-figure--tier-lg {
+    width: clamp(8.125rem, 40vw, 12.5rem);
+  }
+
+  .ambient-float-figure--tier-md {
+    width: clamp(7.5rem, 36vw, 11.875rem);
+  }
+
+  .ambient-float-figure--tier-sm {
+    width: clamp(7rem, 32vw, 11.25rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-float-figure--marquee {
+    animation: none !important;
+  }
+}

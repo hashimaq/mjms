@@ -1,0 +1,289 @@
+@layer components {
+  .mjms-public-brand {
+    --mjms-ill-opacity: 0.4;
+    --mjms-ill-opacity-soft: 0.28;
+    --mjms-ill-stroke: rgb(95 79 146 / 0.55);
+    --mjms-ill-stroke-alt: rgb(31 90 166 / 0.48);
+    --mjms-ill-stroke-gold: rgb(227 178 51 / 0.45);
+    --mjms-ill-stroke-teal: rgb(111 176 176 / 0.52);
+  }
+
+  .dark .mjms-public-brand {
+    --mjms-ill-opacity: 0.36;
+    --mjms-ill-opacity-soft: 0.26;
+    --mjms-ill-stroke: rgb(111 176 176 / 0.58);
+    --mjms-ill-stroke-alt: rgb(95 79 146 / 0.5);
+    --mjms-ill-stroke-gold: rgb(227 178 51 / 0.42);
+    --mjms-ill-stroke-teal: rgb(111 176 176 / 0.55);
+  }
+
+  .mjms-fashion-illustration-field {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .mjms-fashion-illustration-field--page {
+    position: absolute;
+    inset: 0;
+    min-height: 100%;
+  }
+
+  .mjms-fashion-illustration-field-item {
+    position: absolute;
+    opacity: var(--mjms-ill-opacity);
+    color: var(--mjms-ill-stroke);
+  }
+
+  .mjms-fashion-illustration-field--hero .mjms-fashion-illustration-field-item,
+  .mjms-fashion-illustration-field--auth .mjms-fashion-illustration-field-item {
+    opacity: calc(var(--mjms-ill-opacity) + 0.04);
+  }
+
+  /* Hero / catalogue placements */
+  .mjms-fashion-illustration-field-item--01 {
+    width: min(34vw, 360px);
+    right: -4%;
+    top: 6%;
+    transform: rotate(-12deg);
+  }
+
+  .mjms-fashion-illustration-field-item--02 {
+    width: min(28vw, 300px);
+    left: -8%;
+    top: 18%;
+    color: var(--mjms-ill-stroke-gold);
+    transform: rotate(8deg);
+  }
+
+  .mjms-fashion-illustration-field-item--03 {
+    width: min(32vw, 340px);
+    left: 6%;
+    bottom: 14%;
+    color: var(--mjms-ill-stroke-alt);
+    transform: rotate(-5deg);
+  }
+
+  .mjms-fashion-illustration-field-item--04 {
+    width: min(26vw, 280px);
+    right: 20%;
+    bottom: 8%;
+    color: var(--mjms-ill-stroke-teal);
+    transform: rotate(6deg);
+  }
+
+  .mjms-fashion-illustration-field-item--05 {
+    width: min(24vw, 260px);
+    right: 8%;
+    top: 38%;
+    opacity: var(--mjms-ill-opacity-soft);
+  }
+
+  .mjms-fashion-illustration-field-item--06 {
+    width: min(30vw, 320px);
+    left: 28%;
+    top: 4%;
+    opacity: var(--mjms-ill-opacity-soft);
+    transform: rotate(-4deg);
+  }
+
+  .mjms-fashion-illustration-field-item--07 {
+    width: min(22vw, 240px);
+    left: -4%;
+    top: 48%;
+    color: var(--mjms-ill-stroke-alt);
+  }
+
+  .mjms-fashion-illustration-field-item--08 {
+    width: min(20vw, 220px);
+    right: 32%;
+    top: 22%;
+    transform: rotate(10deg);
+  }
+
+  .mjms-fashion-illustration-field-item--09 {
+    width: min(18vw, 200px);
+    right: 4%;
+    bottom: 28%;
+    color: var(--mjms-ill-stroke-gold);
+    opacity: var(--mjms-ill-opacity-soft);
+  }
+
+  .mjms-fashion-illustration-field-item--10 {
+    width: min(22vw, 240px);
+    left: 42%;
+    bottom: 4%;
+    opacity: var(--mjms-ill-opacity-soft);
+  }
+
+  .mjms-fashion-illustration-field-item--11 {
+    width: min(20vw, 210px);
+    left: 14%;
+    top: 62%;
+    transform: rotate(-8deg);
+  }
+
+  .mjms-fashion-illustration-field-item--12 {
+    width: min(18vw, 190px);
+    right: 14%;
+    top: 58%;
+    color: var(--mjms-ill-stroke-teal);
+  }
+
+  .mjms-fashion-illustration-field-item--13 {
+    width: min(24vw, 260px);
+    left: 52%;
+    top: 36%;
+    opacity: var(--mjms-ill-opacity-soft);
+  }
+
+  .mjms-fashion-illustration-field-item--14 {
+    width: min(26vw, 280px);
+    right: -6%;
+    bottom: 18%;
+    transform: rotate(-6deg);
+  }
+
+  .mjms-fashion-illustration-field-item--15 {
+    width: min(20vw, 220px);
+    left: 68%;
+    bottom: 22%;
+    color: var(--mjms-ill-stroke-gold);
+  }
+
+  /* Below-fold page band */
+  .mjms-fashion-illustration-field-item--p01 {
+    width: min(28vw, 300px);
+    left: -6%;
+    top: 12%;
+  }
+
+  .mjms-fashion-illustration-field-item--p02 {
+    width: min(24vw, 260px);
+    right: -4%;
+    top: 28%;
+    color: var(--mjms-ill-stroke-teal);
+  }
+
+  .mjms-fashion-illustration-field-item--p03 {
+    width: min(22vw, 240px);
+    right: 18%;
+    top: 55%;
+  }
+
+  .mjms-fashion-illustration-field-item--p04 {
+    width: min(20vw, 220px);
+    left: 20%;
+    top: 68%;
+    color: var(--mjms-ill-stroke-gold);
+  }
+
+  .mjms-fashion-illustration-field-item--p05 {
+    width: min(26vw, 280px);
+    left: 48%;
+    top: 8%;
+    opacity: var(--mjms-ill-opacity-soft);
+  }
+
+  .mjms-fashion-illustration-field-item--p06 {
+    width: min(22vw, 240px);
+    right: 8%;
+    top: 78%;
+    opacity: var(--mjms-ill-opacity-soft);
+  }
+
+  @media (max-width: 768px) {
+    .mjms-fashion-illustration-field-item--06,
+    .mjms-fashion-illustration-field-item--08,
+    .mjms-fashion-illustration-field-item--10,
+    .mjms-fashion-illustration-field-item--13,
+    .mjms-fashion-illustration-field-item--15,
+    .mjms-fashion-illustration-field-item--p05,
+    .mjms-fashion-illustration-field-item--p06 {
+      display: none;
+    }
+
+    .mjms-fashion-illustration-field-item {
+      opacity: calc(var(--mjms-ill-opacity) * 0.85);
+    }
+  }
+
+  @media (max-width: 430px) {
+    .mjms-fashion-illustration-field-item--03,
+    .mjms-fashion-illustration-field-item--04,
+    .mjms-fashion-illustration-field-item--09,
+    .mjms-fashion-illustration-field-item--11,
+    .mjms-fashion-illustration-field-item--p04 {
+      display: none;
+    }
+  }
+
+  /* Geometric marquee + illustration accents */
+  .home-marquee {
+    position: relative;
+  }
+
+  .home-marquee-illustration-accent {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .home-marquee-illustration-accent-item {
+    position: absolute;
+    width: 3.35rem;
+    height: auto;
+    opacity: 0.55;
+    color: var(--mjms-ill-stroke-teal);
+  }
+
+  .dark .home-marquee-illustration-accent-item {
+    opacity: 0.4;
+    color: var(--mjms-ill-stroke);
+  }
+
+  .home-marquee-illustration-accent-item--1 { left: 4%; top: 18%; transform: rotate(-8deg); }
+  .home-marquee-illustration-accent-item--2 { left: 16%; top: 22%; color: var(--mjms-ill-stroke-alt); }
+  .home-marquee-illustration-accent-item--3 { left: 28%; top: 14%; color: var(--mjms-ill-stroke-gold); }
+  .home-marquee-illustration-accent-item--4 { left: 42%; top: 20%; }
+  .home-marquee-illustration-accent-item--5 { left: 56%; top: 16%; transform: rotate(6deg); }
+  .home-marquee-illustration-accent-item--6 { left: 68%; top: 22%; color: var(--mjms-ill-stroke-alt); }
+  .home-marquee-illustration-accent-item--7 { left: 78%; top: 12%; }
+  .home-marquee-illustration-accent-item--8 { left: 88%; top: 18%; color: var(--mjms-ill-stroke-gold); }
+
+  .home-marquee-track {
+    position: relative;
+    z-index: 2;
+  }
+
+  .home-fashion-marquee .home-fashion-marquee-sketch {
+    opacity: 0.98;
+  }
+
+  .mjms-fashion-illustration-field--season-boost {
+    position: fixed;
+    z-index: 0;
+    opacity: 0.92;
+  }
+
+  .mjms-fashion-illustration-field--workspace {
+    position: fixed;
+    z-index: 0;
+  }
+
+  .mjms-fashion-illustration-field--workspace .mjms-fashion-illustration-field-item {
+    opacity: calc(var(--mjms-ill-opacity) * 0.75);
+  }
+
+  .collection-page,
+  .collection-main,
+  .login-shell,
+  .auth-welcome {
+    position: relative;
+    z-index: 1;
+  }
+}

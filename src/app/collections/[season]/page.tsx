@@ -61,7 +61,7 @@ export default async function SeasonCollectionPage({ params, searchParams }: Pag
 
   return (
     <article className="collection-page collection-page--season">
-      <CollectionPageDecor />
+      <CollectionPageDecor season={season.slug} />
       <div className="collection-page-inner home-container">
         <CollectionBreadcrumbs
           items={[

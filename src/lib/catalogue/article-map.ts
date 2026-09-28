@@ -1,6 +1,8 @@
 import {
+  categoryLabelFromSourceSheet,
   getCategory,
   getSeason,
+  matchCategorySlugFromSourceSheet,
   type CategorySlug,
   type SeasonSlug,
 } from "@/lib/collections/config";
@@ -28,12 +30,7 @@ function displayField(raw: string | null, normalized: string | null): string | n
 }
 
 export function inferCategoryFromSheet(sheet: string): CategorySlug | null {
-  if (sheet.endsWith(" DIP PVC")) return "dip-pvc";
-  if (sheet.endsWith(" DIP PU")) return "dip-pu";
-  if (sheet.endsWith(" HEEL")) return "heel";
-  if (sheet.endsWith(" FLAT")) return "flat";
-  if (sheet.endsWith(" PU")) return "pu";
-  return null;
+  return matchCategorySlugFromSourceSheet(sheet);
 }
 
 export function inferSeasonFromSheet(sheet: string): SeasonSlug | null {
@@ -47,11 +44,14 @@ export function mapArticleRowToProduct(
   visualIndex: number
 ): CatalogueProduct | null {
   const season = inferSeasonFromSheet(row.source_sheet);
-  const category = inferCategoryFromSheet(row.source_sheet);
-  if (!season || !category) return null;
+  if (!season) return null;
 
+  const category = inferCategoryFromSheet(row.source_sheet);
   const seasonDef = getSeason(season);
-  const categoryDef = getCategory(category);
+  const categoryLabel = category
+    ? getCategory(category).label
+    : categoryLabelFromSourceSheet(row.source_sheet);
+  const categorySlug: CategorySlug = category ?? "pu";
   const projectName = row.project_raw.trim() || "Untitled";
 
   return {
@@ -61,8 +61,8 @@ export function mapArticleRowToProduct(
     articleReference: row.source_no?.trim() || null,
     seasonSlug: season,
     seasonLabel: seasonDef.shortTitle,
-    categorySlug: category,
-    categoryLabel: categoryDef.label,
+    categorySlug,
+    categoryLabel,
     making: displayField(row.making_raw, row.making_normalized),
     type: displayField(row.type_raw, row.type_normalized),
     material: row.material_raw?.trim() || null,
